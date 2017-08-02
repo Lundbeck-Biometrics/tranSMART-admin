@@ -54,3 +54,14 @@ delete from deapp.de_mrna_annotation where gpl_id='LIBDP';
 
 UPDATE deapp.de_gpl_info SET marker_type = 'Gene Expression' WHERE platform = 'LIBDP';
 
+-- Handling GWAS data type
+
+-- Update experiment type from BIO_CLINICAL_TRIAL to Experiment in order for the search to be able to index the GWAS dataset
+UPDATE biomart.bio_experiment SET bio_experiment_type = 'experiment' WHERE accession = 'MAGIC';
+
+-- Delete MAGIC dataset load
+DELETE FROM biomart.BIO_ASSAY_ANALYSIS where ETL_ID="MAGIC";
+DELETE FROM biomart.bio_assay_analysis_gwas where bio_assay_analysis_id = '868884';
+DELETE FROM biomart.BIO_ASSAY_ANALYSIS_EXT where bio_assay_analysis_id = '868884';
+DELETE FROM BIOMART.BIO_EXPERIMENT where accession = 'MAGIC'
+DELETE FROM biomart.bio_data_uid where BIO_DATA_TYPE = 'BIO_EXPERIMENT' AND BIO_DATA_ID NOT IN (SELECT BIO_EXPERIMENT_ID FROM BIOMART.BIO_EXPERIMENT);
