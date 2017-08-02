@@ -60,8 +60,8 @@ UPDATE deapp.de_gpl_info SET marker_type = 'Gene Expression' WHERE platform = 'L
 UPDATE biomart.bio_experiment SET bio_experiment_type = 'experiment' WHERE accession = 'MAGIC';
 
 -- Delete MAGIC dataset load
-DELETE FROM biomart.BIO_ASSAY_ANALYSIS where ETL_ID="MAGIC";
-DELETE FROM biomart.bio_assay_analysis_gwas where bio_assay_analysis_id = '868884';
-DELETE FROM biomart.BIO_ASSAY_ANALYSIS_EXT where bio_assay_analysis_id = '868884';
-DELETE FROM BIOMART.BIO_EXPERIMENT where accession = 'MAGIC'
-DELETE FROM biomart.bio_data_uid where BIO_DATA_TYPE = 'BIO_EXPERIMENT' AND BIO_DATA_ID NOT IN (SELECT BIO_EXPERIMENT_ID FROM BIOMART.BIO_EXPERIMENT);
+DELETE FROM biomart.BIO_ASSAY_ANALYSIS WHERE etl_id='MAGIC';
+DELETE FROM biomart.BIO_ASSAY_ANALYSIS_GWAS WHERE bio_assay_analysis_id = '868884';
+DELETE FROM biomart.BIO_ASSAY_ANALYSIS_EXT WHERE bio_assay_analysis_id = '868884';
+DELETE FROM biomart.BIO_EXPERIMENT WHERE accession = 'MAGIC'
+DELETE FROM biomart.BIO_DATA_UID WHERE bio_data_type = 'BIO_EXPERIMENT' AND bio_data_id NOT IN (SELECT BIO_EXPERIMENT_ID FROM biomart.BIO_EXPERIMENT);
