@@ -34,7 +34,7 @@ WHERE TRIAL_NAME='LIBD';
 
 DELETE FROM i2b2metadata.i2b2 WHERE sourcesystem_cd='LIBD';
 
-DELETE FROM i2b2metadata.i2b2_secure WHERE c_fullname='LIBD';
+DELETE FROM i2b2metadata.i2b2_secure WHERE sourcesystem_cd='LIBD';
 
 -- Checking the platform annotation
 
