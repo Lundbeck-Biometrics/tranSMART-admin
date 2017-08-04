@@ -5,4 +5,4 @@ free -m
 df
 
 # Check how much disk space is used by a specific folder
-sudo du -hs /path/to/dir
+du -hs /path/to/dir
