@@ -14,3 +14,8 @@ cat /sys/block/sdb/queue/rotational
 
 # Another cmd to check what type of disk is mounted
 lsblk -d -o name, rota
+
+# Test disk read
+sudo hdparm -t /dev/sdb
+
+# Could also try: https://github.com/phoronix-test-suite/phoronix-test-suite
