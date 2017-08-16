@@ -1,9 +1,13 @@
+Information on what data is stored in the database and where, and how it is used in the tranSMART application.
+
 ## Dictionaries
 
 | Dictionary  | Usage | Database Table(s) |
 | ------------- | ------------- | ------------- |
-| Disease names | used when creating a program and when searching  | biomart.bio_disease and maybe more?  |
-
+| Disease | used when creating a program and when searching  | biomart.bio_disease and maybe more?  |
+| Genes, Proteins, miRNA, Metabolites | ? | biomart.bio_marker  |
+| Species (example: Homo sapiens > Human) | ? | biomart.bio_taxonomy |
+| Synonyms for diseases, genes, proteins, miRNA, metabolities | ? | bio_data_ext_code |
 
 ## Data Types
 
