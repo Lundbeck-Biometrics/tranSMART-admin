@@ -8,6 +8,7 @@ Information on what data is stored in the database and where, and how it is used
 | Genes, Proteins, miRNA, Metabolites | ? | biomart.bio_marker  |
 | Species (example: Homo sapiens > Human) | ? | biomart.bio_taxonomy |
 | Synonyms for diseases, genes, proteins, miRNA, metabolities | ? | bio_data_ext_code |
+| Lists of various concepts (examples: therapeutic domain, experiment type, tissue type) | The therapeutic domain for example is used in creating a progam in the application | bio_concept_code |
 
 ## Data Types
 
