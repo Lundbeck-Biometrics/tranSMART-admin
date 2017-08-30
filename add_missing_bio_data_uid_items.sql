@@ -13,3 +13,13 @@ insert into biomart.bio_data_uid(
                       (select 1 from biomart.bio_data_uid
                       where 'DIS:' || coalesce(bio_disease.mesh_code, 'ERROR') = bio_data_uid.unique_id);
 
+-- ADD CONCEPT_CODE UIDS
+
+insert into biomart.bio_data_uid(
+                    bio_data_id, unique_id, bio_data_type)
+                    SELECT
+                    bio_concept_code_id, code_type_name || ':' || bio_concept_code, 'BIO_CONCEPT_CODE'
+                    from biomart.bio_concept_code
+                    where not exists
+                      (select 1 from biomart.bio_data_uid
+                      where (bio_concept_code.code_type_name || ':' || bio_concept_code. bio_concept_code) = bio_data_uid.unique_id);
