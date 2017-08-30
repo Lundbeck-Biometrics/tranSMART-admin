@@ -2,7 +2,10 @@
 -- we need to add some missing data in the biomart.bio_data_uid table.
 
 -- ADD DISEASE UIDS
--- Code is based on: https://github.com/tranSMART-Foundation/transmart-data/blob/release-16.2/ddl/postgres/tm_cz/functions/set_bio_data_uid_dis.sql
+/* Code is based on: https://github.com/tranSMART-Foundation/transmart-data/blob/release-16.2/ddl/postgres/tm_cz/functions/set_bio_data_uid_dis.sql
+   Example of what will be inserted in bio_data_uid: 
+  "149895"	"DIS:D008016"	"BIO_DISEASE"
+  */
 
 insert into biomart.bio_data_uid(
                     bio_data_id, unique_id, bio_data_type)
@@ -14,6 +17,31 @@ insert into biomart.bio_data_uid(
                       where 'DIS:' || coalesce(bio_disease.mesh_code, 'ERROR') = bio_data_uid.unique_id);
 
 -- ADD CONCEPT_CODE UIDS
+/* Example of what will be inserted in bio_data_uid:
+  "169631"	"STUDY_DESIGN:INTERVENTIONAL"	"BIO_CONCEPT_CODE"
+  Various concept types:
+  "STUDY_BIOMARKER_TYPE"
+  "FOLD_CHG_METRIC"
+  "ANALYSIS_METHOD"
+  "STUDY_PHASE"
+  "ANALYTIC_CATEGORY"
+  "GENE_SIG_SOURCE"
+  "STUDY_ACCESS_TYPE"
+  "STUDY_DESIGN"
+  "SPECIES"
+  "NORMALIZATION_METHOD"
+  "THERAPEUTIC_DOMAIN"
+  "P_VAL_CUTOFF"
+  "STUDY_PUBLICATION_STUDY_PUBLICATION_STATUS"
+  "COUNTRY"
+  "STUDY_OBJECTIVE"
+  "EXPERIMENT_TYPE"
+  "FILE_TYPE"
+  "OTHER"
+  "ASSAY_TYPE_OF_BM_STUDIED"
+  "TISSUE_TYPE"
+  "PROVIDER" 
+  */
 
 insert into biomart.bio_data_uid(
                     bio_data_id, unique_id, bio_data_type)
