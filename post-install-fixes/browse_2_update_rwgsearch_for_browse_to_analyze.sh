@@ -12,5 +12,4 @@ sudo nano rwgsearch.js
 # queryString += "&searchTerms=" + encodeURIComponent(savedSearchTerms) + "&searchOperators=" + encodeURIComponent(operatorString) + "&globaloperator=" + globalLogicOperator;
 # Save changes
 
-# Restart the tomcat server and refresh cached resources in the browser.
-sudo service tomcat7 restart
+# Might need to restart tomcat and refresh your browser cache
