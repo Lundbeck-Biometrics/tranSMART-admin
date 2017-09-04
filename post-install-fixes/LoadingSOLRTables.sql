@@ -1,4 +1,9 @@
-﻿-- Script for loading search taxonomy (based on https://raw.githubusercontent.com/transmart/transmart-gwas-plugin/master/External%20Dep/Database/LoadingSOLRTables.sql)
+-- Issue: Nothing is shown in the Filter Browser in the GWAS tab
+-- Cause: Missing metadata in the Postgres database
+-- Solution: Update database (code ported from GWAS repo from Oracle to Postgres)
+-- After update four items will appear in the Filter Browser panel in the GWAS tab
+
+-- Script for loading search taxonomy (based on https://raw.githubusercontent.com/transmart/transmart-gwas-plugin/master/External%20Dep/Database/LoadingSOLRTables.sql)
 -- Migrated the initial script from Oracle to Postgres
 
 --Populate the SEARCH_TAXONOMY tree with the categories we want to see.
