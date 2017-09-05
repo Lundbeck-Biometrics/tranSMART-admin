@@ -1,3 +1,13 @@
+-- Issue: tranSMART encountered an error while running this query 
+-- (org.postgresql.util.PSQLException ERROR: column "beta" does not exist Position: 118)
+-- Solution: the beta column is missing in the biomart.bio_asy_analysis_gwas_top50 table
+-- so we create the table again, with the expected columns
+
+-- Connect to the server and run postgres commands to recreate the table
+-- cd /datastore/postgresql/tablespaces/
+-- sudo su postgres
+-- psql -d transmart
+
 -- Table: biomart.bio_asy_analysis_gwas_top50
 
 DROP TABLE biomart.bio_asy_analysis_gwas_top50;
