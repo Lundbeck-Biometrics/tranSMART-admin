@@ -49,6 +49,7 @@ To get started with a simple example you can follow the `demoCommands.R` code: h
 
 Authentication is handled when you start connecting to tranSMART and an access token will be needed in order to be able to access the data. The `connectToTransmart` call will return a URL to be used in order to retrieve the access token, and you will have to type this token back in R. See screenshot below for an example. 
 
+![Example connection to tranSMART](https://github.com/Lundbeck-Biometrics/tranSMART-admin/blob/master/guides/example_transmart_R.png?raw=true "Example connection to tranSMART")
 
 ## Admin Guide: Installation of transmartRClient on server 
 
