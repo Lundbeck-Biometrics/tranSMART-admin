@@ -85,3 +85,106 @@ Run install script, as described by the guide:
 ```
 ./Scripts/install-ubuntu/InstallTransmart.sh 2>&1 | tee ~/install.log 
 ```
+
+If any issues occur, check the error message, fix the problem, and then run the script again.
+
+### Known issue: QDNAseq R package URL
+
+The script will download the transmart-data artifact, which includes some config scripts that will look for an R package that cannot be downloaded anymore. 
+
+The `transmart-data/R/other_pkg.R` file needs to be updated to use version `1.12` of QDNAseq instead of `1.10`, so: http://bioconductor.org/packages/release/bioc/src/contrib/QDNAseq_1.10.0.tar.gz 
+
+Rerun the install script after changing the version number for the R package.
+
+(Issue is now already reported in the comments section of the Install page: https://wiki.transmartfoundation.org/display/transmartwiki/Install+the+current+official+release)
+
+### Known issue: check on login page
+
+The last step in the install script checks that all services are running, and one of the checks is that the tranSMART login web page is shown. However, the check is for a string that is not found. 
+
+The `Scripts\install-ubuntu\checks\checkWeb.sh` script searches on the login page for "tranSMART" but actually it should be "Transmart".
+
+If you see the login page if you go in the browser, then that part is okay, and it's only if you want to run the check again then you should change the string in the `checkWeb.sh` file. 
+
+To rerun the checks:
+```
+cd Scripts/install-ubuntu/checks/
+./checkAll.sh 2>&1 2>&1 | tee ~/checks.log
+```
+
+(Issue is now already reported in the transmart-discuss forum: https://groups.google.com/forum/#!topic/transmart-discuss/NrjkiCCVaWE)
+
+
+## Setup post-install
+
+### Warnings in tomcat log 
+
+Getting warnings in tomcat log like this one:
+`WARNING: Problem with directory [/usr/share/tomcat7/shared/classes], exists: [false], isDirectory: [false], canRead: [false]`
+
+Issue described here: http://stackoverflow.com/questions/27337674/folder-issues-with-tomcat-7-on-ubuntu 
+
+And the solution is to create symbolic links:
+```
+cd /usr/share/tomcat7
+sudo ln -s /var/lib/tomcat7/common/ common
+sudo ln -s /var/lib/tomcat7/server/ server
+sudo ln -s /var/lib/tomcat7/shared/ shared
+```
+
+### Move database location
+
+If loading more than the demo dataset, we have to move the location of the postgres data on the mounted `/datastore`, instead of the default `/var/lib/postgresql`. (This problem was identified while trying to load gene expression data and received an error in the kettle job with “No space left on device”).
+
+Stop service:
+```
+sudo service postgresql stop
+```
+
+Create new folder for the postgres data and move existing data there:
+```
+cd /datastore
+sudo mkdir postgresql
+sudo chown postgres postgresql
+sudo chmod 700 postgresql
+sudo cp -aRv /var/lib/postgresql/. /datastore/postgresql/
+sudo rm -r /var/lib/postgresql/
+```
+
+Checking space status (now things should look better in var):
+```
+sudo du -hs /var
+df
+```
+
+Create the link:
+```
+sudo ln -s /datastore/postgresql /var/lib/postgresql
+```
+
+Start postgresql:
+```
+sudo service postgresql start
+```
+
+### Move R jobs location
+
+Seems that every time an R job is run, a folder is created with the output. We have to move the jobs folder to datastore instead of the default location, otherwise the disk gets full fast. (This problem was identified when var ran out of space.)
+
+Create a new folder for storing the output of the R jobs:
+
+```
+cd /datastore
+sudo mkdir jobs
+sudo chown tomcat7 jobs
+```
+
+Copy anything needed from `/var/tmp/jobs` to `/datastore/jobs`
+Note: Copy `cachedQQPlotImages` and `cachedManhattanplotImages` to the new location.
+
+Then remove the old folder and create a link to the new location:
+
+```
+sudo rm -r /var/tmp/jobs/
+sudo ln -s /datastore/jobs /var/tmp/jobs
+```
