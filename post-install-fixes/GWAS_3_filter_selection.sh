@@ -10,4 +10,4 @@ nano facetedSearchBrowse.js
 cd /var/lib/tomcat7/webapps/transmart/plugins/transmart-gwas-16.2/js
 nano gwas.js
 # Change the call in the function gwasShowSearchTemplate from isDataCategory to gwasIsDataCategory
-
+# Update the code in the function gwasApplyPopupFiltersRegions to use encodeURIComponent around the searchString in the searchParam dict
