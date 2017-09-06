@@ -180,6 +180,7 @@ sudo chown tomcat7 jobs
 ```
 
 Copy anything needed from `/var/tmp/jobs` to `/datastore/jobs`
+
 Note: Copy `cachedQQPlotImages` and `cachedManhattanplotImages` to the new location.
 
 Then remove the old folder and create a link to the new location:
@@ -188,3 +189,37 @@ Then remove the old folder and create a link to the new location:
 sudo rm -r /var/tmp/jobs/
 sudo ln -s /datastore/jobs /var/tmp/jobs
 ```
+
+### REST API config
+
+Issue identified when running into the following problem. When requesting the access token from the R Interface client in R studio, getting the following error:
+`error="invalid_grant", error_description="Invalid redirect: http://hluu3100h.lundbeck.com:8080/transmart/oauth/verify does not match one of the registered values: [http://localhost:8080/transmart/oauth/verify]"`. Issue described here by another user: https://groups.google.com/forum/#!topic/transmart-discuss/iLoegUliWPI but the config files have been moved to another folder as described here https://wiki.transmartfoundation.org/display/transmartwiki/Install+the+current+official+release
+
+
+Update `/usr/share/tomcat7/.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
+
+```
+cd /usr/share/tomcat7/.grails/transmartConfig
+nano Config.groovy
+# update the transmart url and save
+```
+
+And then restart tomcat:
+
+```
+sudo service tomcat7 restart
+```
+
+### SmartR fix
+
+In smartR heatmap preprocess task, getting: `Error: class org.rosuda.REngine.Rserve.RserveException: R command failure for: source('/tmp/smart_r_scripts/heatmap/preprocess.R'): Error in library(WGCNA) : there is no package called ‘WGCNA’`
+
+Run R on the server by typing `R` in the shell and then install package:
+
+```
+install.packages(“WGCNA”)
+```
+
+### Additional fixes
+
+Additional post-installation fixes are required in order to use tranSMART functionality. Check the post-install-fixes folder for instructions.
