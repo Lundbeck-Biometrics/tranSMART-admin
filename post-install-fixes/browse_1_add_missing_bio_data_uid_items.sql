@@ -50,4 +50,18 @@ insert into biomart.bio_data_uid(
                     from biomart.bio_concept_code
                     where not exists
                       (select 1 from biomart.bio_data_uid
-                      where (bio_concept_code.code_type_name || ':' || bio_concept_code. bio_concept_code) = bio_data_uid.unique_id);
+                      where (bio_concept_code.code_type_name || ':' || bio_concept_code.bio_concept_code) = bio_data_uid.unique_id);
+
+-- ADD PLATFORM UIDS
+/* Example of what will be inserted in bio_data_uid:
+ 596  "BAP:GPL17529:DNA Microarray" "BIO_ASSAY_PLATFORM"
+  */
+
+insert into biomart.bio_data_uid(
+                    bio_data_id, unique_id, bio_data_type)
+                    SELECT distinct
+                    bio_assay_platform_id, 'BAP:' || platform_accession || ':' || platform_technology, 'BIO_ASSAY_PLATFORM'
+                    from biomart.bio_assay_platform
+                    where not exists
+                      (select 1 from biomart.bio_data_uid
+                      where ('BAP:' || bio_assay_platform.platform_accession || ':' || bio_assay_platform.platform_technology) = bio_data_uid.unique_id);
