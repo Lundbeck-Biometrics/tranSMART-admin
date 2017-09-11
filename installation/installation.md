@@ -1,6 +1,6 @@
-# Guide for installing tranSMART on Lundbeck Ubuntu server
+# Guide for installing tranSMART on Ubuntu server
 
-This guide describes how to install the tranSMART platform on an Ubuntu server, and contains configuration specific to the setup of the server in Lundbeck.  
+This guide describes how to install the tranSMART platform on an Ubuntu 14.04 server with a storage drive mounted as `/datastore`.  
 
 The guide follows the publicly available installation instructions (https://wiki.transmartfoundation.org/display/transmartwiki/Install+the+current+official+release) but adds information on how to resolve issues in the 16.2 tranSMART release. 
 
@@ -13,8 +13,7 @@ The guide follows the publicly available installation instructions (https://wiki
 
 Additional storage should be mounted on `/datastore`. This is the drive that will be used for most of the tranSMART activities.
 
-Files used for the installation: http://library.transmartfoundation.org/release/release16_2_0.html 
-(Also saved on the BiRWE drive: \BiRWE_Programs\tranSMART Release Artifacts Version 16.2) 
+Files used for the installation: http://library.transmartfoundation.org/release/release16_2_0.html  
 
 ### Install java jdk: 
 
