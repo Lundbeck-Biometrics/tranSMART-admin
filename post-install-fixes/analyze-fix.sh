@@ -1,5 +1,5 @@
--- Issue: Getting bad request error in console when expanding notes in Dataset Explorer
--- Solution: Update datasetExplorer.js to encode the request
+# Issue: Getting bad request error in console when expanding notes in Dataset Explorer
+# Solution: Update datasetExplorer.js to encode the request
 
 cd /var/lib/tomcat7/webapps/transmart/js/datasetExplorer
 sudo nano datasetExplorer.js
