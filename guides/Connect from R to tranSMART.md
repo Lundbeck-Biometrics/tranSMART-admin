@@ -1,16 +1,16 @@
 # Guide for connecting from R to tranSMART
 
-This guide describes how to connect from R to the Lundbeck tranSMART server. It refers to public documentation available for tranSMART and adds specific information that applies to Lundbeck’s instance of tranSMART. 
+This guide describes how to connect from R to the tranSMART server. It refers to public documentation available for tranSMART and adds specific information that applies to our infrastructure. 
 
 ## Prerequisites 
 
 
-### Using Lundbeck Windows machine 
+### Using a Windows machine 
 
 
-If using Lundbeck Windows machine, the user should: 
+If using a Windows machine, the user should: 
 
-* have the R and R Studio installed on own computer 
+* have R and R Studio installed on own computer 
 * have credentials for logging in to the tranSMART instance 
 * have installed the transmartRClient or follow the installation procedure below 
 
@@ -24,9 +24,9 @@ library('devtools')
 install_github('transmart/RInterface') 
 ```
 
-### Using Lundbeck RStudio Server 
+### Using the RStudio Server 
 
-If using the Lundbeck RStudio Server, the user should: 
+If using our RStudio Server, the user should: 
 
 * have credentials for logging in to the tranSMART instance 
 
@@ -51,21 +51,21 @@ Authentication is handled when you start connecting to tranSMART and an access t
 
 ![Example connection to tranSMART](https://github.com/Lundbeck-Biometrics/tranSMART-admin/blob/master/guides/example_transmart_R.png?raw=true "Example connection to tranSMART")
 
-## Admin Guide: Installation of transmartRClient on server 
+## Admin Guide: Installation of transmartRClient on RStudio Server 
 
 
-To install the package on a linux machine, you will have to install the protobuf dependency from command line. Installing RProtoBuf through R interface will fail. 
+To install the package on a Linux machine, you will have to install the `protobuf` dependency from command line. Installing RProtoBuf through R interface will fail. 
 
 Ubuntu: 
 
 `apt-get install libprotobuf-dev protobuf-c-compiler`
 
-Redhat: 
+Red Hat: 
 
 `yum install protobuf-compiler protobuf protobuf-devel`
 
 
-Then install dev-tools and the transmartRClient: 
+Then install `dev-tools` and `transmartRClient`: 
 
 ```
 require(devtools) 
