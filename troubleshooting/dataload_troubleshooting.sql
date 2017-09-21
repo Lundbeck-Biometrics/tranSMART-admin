@@ -8,10 +8,6 @@ select * from cz_job_audit where job_id=95;
 -- Deleting study if errors occured and/or data needs to be reloaded
 -- Following queries can be used to delete both clinical and omics data
 
-DELETE FROM i2b2metadata.i2b2_tags WHERE path=
-(SELECT c_fullname FROM i2b2metadata.i2b2
-WHERE sourcesystem_cd='LIBD' ORDER BY c_hlevel ASC LIMIT 1);
-
 DELETE FROM i2b2demodata.concept_dimension
 WHERE sourcesystem_cd='LIBD';
 
