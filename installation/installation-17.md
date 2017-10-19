@@ -31,6 +31,16 @@ Add the jdk path to `PATH` as well
 
 `source /etc/environment`
 
+### Install Gradle using Sdkman
+
+```
+curl -s https://get.sdkman.io | bash
+sdk version
+sdk use gradle 2.13
+```
+
+To check which gradle is used, type in `sdk list gradle` (http://sdkman.io/usage.html).
+
 ### Set up a transmart account
 
 ```
@@ -52,3 +62,28 @@ Update permissions on that folder (below is a bit dangerous but seems to be need
 `chmod -R 0777 transmart-core`
 
 
+## Installation
+
+### Build the `transmart.war` app:
+
+```
+cd /datastore/transmart-core
+gradle :transmart-server:bootRepackage
+```
+
+If encountering errors, check the version of gradle that is being used.
+
+### Set up the database (transmart-data)
+
+```
+cd /datastore/transmart-core/transmart-data
+sudo make -C env ubuntu_deps_root
+make -C env ubuntu_deps_regular
+
+sudo su postgres
+. ./vars
+make postgres_drop
+make -j4 postgres
+```
+
+TO-DO: continue with instructions from transmart-data and then from the transmart-core repo instructions
