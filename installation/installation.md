@@ -1,6 +1,6 @@
-# Guide for installing tranSMART on Ubuntu server
+# Guide for installing tranSMART 16.2 on Ubuntu server
 
-This guide describes how to install the tranSMART platform on an Ubuntu 14.04 server with a storage drive mounted as `/datastore`.  
+This guide describes how to install the tranSMART 16.2 platform on an Ubuntu 14.04 server with a storage drive mounted as `/datastore`.  
 
 The guide follows the publicly available installation instructions (https://wiki.transmartfoundation.org/display/transmartwiki/Install+the+current+official+release) but adds information on how to resolve issues in the 16.2 tranSMART release. 
 
