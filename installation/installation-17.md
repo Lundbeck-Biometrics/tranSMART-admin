@@ -86,4 +86,6 @@ make postgres_drop
 make -j4 postgres
 ```
 
+If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones using `biomart`), and run the drop and postgres commands again.
+
 TO-DO: continue with instructions from transmart-data and then from the transmart-core repo instructions
