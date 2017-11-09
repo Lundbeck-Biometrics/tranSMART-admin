@@ -1,6 +1,6 @@
-# Guide for installing tranSMART 17.1 (2017) on a Ubuntu 14.04 server
+# Guide for installing tranSMART 17.1 (2017) on a Ubuntu 16.04 server
 
-This guide describes how to install the tranSMART platform on an Ubuntu 14.04 server with a storage drive mounted as `/datastore`.  
+This guide describes how to install the tranSMART platform on an Ubuntu 16.04 server with a storage drive mounted as `/datastore`.  
 
 The guide follows the publicly available installation instructions (https://github.com/thehyve/transmart-core).
 
