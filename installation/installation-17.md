@@ -134,6 +134,15 @@ chown transmart logs
 ### Start transmart
 
 ```
-java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.txt
+java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.txt &
 ```
 
+TO-DO: find a way for better logging
+
+### Install transmartApp
+
+TO-DO: 
+
+```
+gradle :transmartApp:bootRepackage
+```
