@@ -88,4 +88,52 @@ make -j4 postgres
 
 If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones using `biomart`), and run the drop and postgres commands again.
 
-TO-DO: continue with instructions from transmart-data and then from the transmart-core repo instructions
+### Install prerequisites
+
+```
+sudo apt-get install php
+```
+
+### Solr
+
+```
+cd /datastore/transmart-core/transmart-data
+make -C solr start &
+make -C solr browse_full_import rwg_full_import sample_full_import
+```
+
+### RServe
+
+```
+cd /datastore/transmart-core/transmart-data/R
+make -C R -j8 root/bin/R
+nano Makefile
+# Update R_MIRROR from https to http
+make -C R install_packages
+sudo TRANSMART_USER=transmart make -C R install_rserve_init
+```
+
+### Install config files
+
+```
+nano vars
+# Add TSUSER_HOME=$HOME/
+# And add TSUSER_HOME to export statement
+. ./vars
+make -C config install
+```
+
+### Ensure the right ownership for logs folder
+
+If transmart is not the owner of the `logs` folder in `datastore/transmart-core`, then run the following:
+```
+cd /datastore/transmart-core
+chown transmart logs
+```
+
+### Start transmart
+
+```
+java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.txt
+```
+
