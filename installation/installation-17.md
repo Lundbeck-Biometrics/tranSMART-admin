@@ -105,6 +105,8 @@ make -C solr start &
 make -C solr browse_full_import rwg_full_import sample_full_import
 ```
 
+Solr will then run at http://yourserverurl:8983/solr
+
 ### RServe
 
 ```
@@ -133,6 +135,8 @@ java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.t
 ```
 
 TO-DO: find a way for better logging
+
+TranSMART server will run at http://yourserverlurl:8080/
 
 ## Install the transmartApp web interface
  
