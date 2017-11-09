@@ -61,6 +61,9 @@ Update permissions on that folder (below is a bit dangerous but seems to be need
 
 `chmod -R 0777 transmart-core`
 
+TODO: re-evaluate if we can instead just have: 
+
+`sudo chown transmart:transmart transmart-core/ -R`
 
 ## Installation
 
@@ -123,14 +126,6 @@ nano vars
 make -C config install
 ```
 
-### Ensure the right ownership for logs folder
-
-If transmart is not the owner of the `logs` folder in `datastore/transmart-core`, then run the following:
-```
-cd /datastore/transmart-core
-chown transmart logs
-```
-
 ### Start transmart
 
 ```
@@ -139,10 +134,18 @@ java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.t
 
 TO-DO: find a way for better logging
 
-### Install transmartApp
-
-TO-DO: 
+## Install the transmartApp web interface
+ 
+### Build transmartApp
 
 ```
+cd /datastore/transmart-core
+ls -alh
+# Change ownership of transmart-core from root to transmart if needed:
+sudo chown transmart:transmart transmart-core/ -R
+# Build:
 gradle :transmartApp:bootRepackage
 ```
+
+This will create the file `/datastore/transmart-core/transmartApp/build/libs/transmartApp-17.1-SNAPSHOT.war`
+
