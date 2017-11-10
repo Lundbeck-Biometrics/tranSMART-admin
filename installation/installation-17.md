@@ -139,6 +139,9 @@ java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.t
 TO-DO: find a way for better logging
 
 TranSMART server will run at http://yourserverlurl:8080/
+Go to that URL and log in.
+Error after log in: Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`.
+TO-DO: fix (probably need to change URL in transmart config)
 
 ## Test the REST-API
 
