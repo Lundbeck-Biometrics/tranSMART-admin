@@ -97,6 +97,8 @@ If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment
 sudo apt-get install php
 ```
 
+TO-DO: instructions for installation of tomcat
+
 ### Solr
 
 ```
@@ -138,6 +140,10 @@ TO-DO: find a way for better logging
 
 TranSMART server will run at http://yourserverlurl:8080/
 
+## Test the REST-API
+
+TO-DO: test the RESP API and apply the fix as from 16.2 if needed
+
 ## Install the transmartApp web interface
  
 ### Build transmartApp
@@ -153,3 +159,7 @@ gradle :transmartApp:bootRepackage
 
 This will create the file `/datastore/transmart-core/transmartApp/build/libs/transmartApp-17.1-SNAPSHOT.war`
 
+
+## Post-install setup
+
+TO-DO: move database location and R jobs output location
