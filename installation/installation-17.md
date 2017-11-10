@@ -54,16 +54,9 @@ sudo adduser transmart sudo
 
 ```
 cd /datastore
-git clone https://github.com/thehyve/transmart-core
+sudo git clone https://github.com/thehyve/transmart-core
+sudo chown transmart:transmart transmart-core/ -R
 ```
-
-Update permissions on that folder (below is a bit dangerous but seems to be needed, at least partially, for building the project):
-
-`chmod -R 0777 transmart-core`
-
-TODO: re-evaluate if we can instead just have: 
-
-`sudo chown transmart:transmart transmart-core/ -R`
 
 ## Installation
 
@@ -89,7 +82,7 @@ make postgres_drop
 make -j4 postgres
 ```
 
-If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones using `biomart`), and run the drop and postgres commands again.
+If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones adding a constraint using `biomart`), and run the drop and postgres commands again.
 
 ### Install prerequisites
 
@@ -103,6 +96,7 @@ TO-DO: instructions for installation of tomcat
 
 ```
 cd /datastore/transmart-core/transmart-data
+. ./vars
 make -C solr start &
 make -C solr browse_full_import rwg_full_import sample_full_import
 ```
@@ -135,8 +129,6 @@ make -C config install
 ```
 java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.txt &
 ```
-
-TO-DO: find a way for better logging
 
 TranSMART server will run at http://yourserverlurl:8080/
 Go to that URL and log in.
