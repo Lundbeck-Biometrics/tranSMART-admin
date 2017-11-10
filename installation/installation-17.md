@@ -140,27 +140,57 @@ TO-DO: find a way for better logging
 
 TranSMART server will run at http://yourserverlurl:8080/
 Go to that URL and log in.
-Error after log in: Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`.
-TO-DO: fix (probably need to change URL in transmart config)
+
+#### Error after log in
+Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`. Stop the process and update the transmart config file. Update `/home/transmart/.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
+```
+cd /usr/share/tomcat7/.grails/transmartConfig
+nano Config.groovy
+# update the transmart url and save
+```
+Start the java app again and the login should work.
+
+### Deploy transmart to tomcat
+
+If the above app runs without problems, then we can now deploy the app to Tomcat.
+
+```
+cd /datastore/transmart-core/transmart-server/build/libs
+sudo cp transmart-server-17.1-SNAPSHOT.war /var/lib/tomcat7/webapps/transmart.war
+cd /var/lib/tomcat7/webapps
+sudo chown tomcat7:tomcat7 transmart.war
+sudo service tomcat7 start
+```
+
+#### Issues with deploying
+
+Getting warnings in tomcat log like this one: WARNING: Problem with directory [/usr/share/tomcat7/shared/classes], exists: [false], isDirectory: [false], canRead: [false]
+
+Issue described here: http://stackoverflow.com/questions/27337674/folder-issues-with-tomcat-7-on-ubuntu
+
+And the solution is to create symbolic links:
+
+```
+cd /usr/share/tomcat7
+sudo ln -s /var/lib/tomcat7/common/ common
+sudo ln -s /var/lib/tomcat7/server/ server
+sudo ln -s /var/lib/tomcat7/shared/ shared
+```
+
+#### Setting up config files
+
+Getting warnings in the tomcat catalina.out log like: `WARN org.transmart.server.Application - Configuration file /usr/share/tomcat7/.gails/transmartConfig/Config.groovy does not exist.`
+
+Our configuration file is actually in `/home/transmart/.grails/transmartConfig/`
+
+```
+cd /usr/share/tomcat7
+sudo ln -s /home/transmart/.grails/ .grails
+```
 
 ## Test the REST-API
 
 TO-DO: test the RESP API and apply the fix as from 16.2 if needed
-
-## Install the transmartApp web interface
- 
-### Build transmartApp
-
-```
-cd /datastore/transmart-core
-ls -alh
-# Change ownership of transmart-core from root to transmart if needed:
-sudo chown transmart:transmart transmart-core/ -R
-# Build:
-gradle :transmartApp:bootRepackage
-```
-
-This will create the file `/datastore/transmart-core/transmartApp/build/libs/transmartApp-17.1-SNAPSHOT.war`
 
 
 ## Post-install setup
