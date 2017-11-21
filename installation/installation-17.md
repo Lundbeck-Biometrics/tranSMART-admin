@@ -110,7 +110,7 @@ Modify config for tomcat7:
 
 ```sudo nano /etc/default/tomcat7```
 
-Modify line containing JAVA_HOME to the installed JAVA version.
+Modify line containing JAVA_HOME to the installed JAVA version. Use JAVA 8 here.
 
 Restart tomcat7:
 
@@ -131,26 +131,43 @@ Solr will then run at http://yourserverurl:8983/solr
 
 ### RServe
 
+Install:
+
 ```
-cd /datastore/transmart-core/transmart-data/R
+sudo apt-get install r-base-core
+cd /datastore/transmart-core/transmart-data
+. ./vars
 make -C R -j8 root/bin/R
-nano Makefile
+nano R/Makefile
 # Update R_MIRROR from https to http
 make -C R install_packages
-sudo TRANSMART_USER=transmart make -C R install_rserve_init
+```
+
+Run:
+
+```
+sudo su
+TRANSMART_USER=tomcat7 make -C R install_rserve_init
+update-rc.d rserve defaults 85 # to enable the service
+exit
 ```
 
 ### Install config files
 
 ```
 nano vars
-# Add TSUSER_HOME=$HOME/
+# Add TSUSER_HOME=/usr/share/tomcat7/
 # And add TSUSER_HOME to export statement
+sudo su
 . ./vars
 make -C config install
 ```
 
 ### Build the `transmart.war` app:
+
+For building the transmart.war app we use Java 8.
+Switch JAVA_HOME
+Use correct version of gradle with sdkman
 
 ```
 cd /datastore/transmart-core
