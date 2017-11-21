@@ -23,6 +23,8 @@ Additional storage should be mounted on `/datastore`. This is the drive that wil
 
 ### Install java jdk: 
 
+Note: As far as we can see, both Java 7 and Java 8 need to be installed. The transmart web app uses Java 8 and transmart-data uses Java 7.
+
 If Java 7 is already installed, install Java 8, and choose the right version using the update-alternatives commands below.
 
 ```
@@ -33,13 +35,13 @@ sudo update-alternatives --config java
 sudo update-alternatives --config javac
 ```
 
-If not installed, can just install by:
+And similarly if Java 8 is already installed but you need to install Java 7 as well.
+
+If the version is not installed, can just install by:
 
 ```
 sudo apt-get install openjdk-8-jdk
 ```
-
-TO-DO: decide which Java version we are using???
 
 Set paths in /etc/environment: 
 
@@ -59,7 +61,8 @@ sdk use gradle 2.13
 ```
 
 To check which gradle is used, type in `sdk list gradle` (http://sdkman.io/usage.html).
-If the setting of which gradle is to be used fails with the sdk use command, then 
+
+If the setting of which gradle is to be used fails with the sdk use command, then switch to another version that is not installed, and then switch back to correct version of 2.13. 
 
 ### Get the source code
 
@@ -100,21 +103,18 @@ make -j4 postgres
 
 If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones adding a constraint using `biomart`), and run the drop and postgres commands again.
 
-### Install prerequisites
+### Install Tomcat
 
-Installed tomcat7 by using the command:
-
-```sudo apt-get install tomcat7```
-
-Modify config for tomcat7:
-
-```sudo nano /etc/default/tomcat7```
-
-Modify line containing JAVA_HOME to the installed JAVA version. Use JAVA 8 here.
-
-Restart tomcat7:
-
-```sudo service tomcat7 restart```
+```
+# Install tomcat7 by using the command:
+sudo apt-get install tomcat7
+# Modify config for tomcat7:
+sudo nano /etc/default/tomcat7
+# Modify line containing JAVA_HOME to the installed JAVA version. Use JAVA 8 here.
+# Modify line containing JAVA_OPTS to include -Xms512m -Xmx2g (issue described here: https://wiki.transmartfoundation.org/pages/viewpage.action?pageId=9535811)
+# Restart tomcat7:
+sudo service tomcat7 restart
+```
 
 Check that it works: `http://serverurl:8080/`
 
@@ -127,7 +127,7 @@ make -C solr start &
 make -C solr browse_full_import rwg_full_import sample_full_import
 ```
 
-Solr will then run at http://yourserverurl:8983/solr
+Solr will then run at `http://serverurl:8983/solr`
 
 ### RServe
 
@@ -161,6 +161,7 @@ nano vars
 sudo su
 . ./vars
 make -C config install
+exit
 ```
 
 ### Build the `transmart.war` app:
@@ -176,23 +177,17 @@ gradle :transmart-server:bootRepackage
 
 If encountering errors, check the version of gradle that is being used.
 
-### Start transmart
+### Start transmart with java -jar
 
 ```
 java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war > log.txt &
 ```
 
-TranSMART server will run at http://yourserverlurl:8080/
+TranSMART server will run at `http://serverlurl:8080/`
 Go to that URL and log in.
 
-#### Error after log in
-Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`. Stop the process and update the transmart config file. Update `/home/transmart/.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
-```
-cd /usr/share/tomcat7/.grails/transmartConfig
-nano Config.groovy
-# update the transmart url and save
-```
-Start the java app again and the login should work.
+
+## Deploy transmart.war to Tomcat
 
 ### Deploy transmart to tomcat
 
@@ -202,7 +197,7 @@ If the above app runs without problems, then we can now deploy the app to Tomcat
 cd /datastore/transmart-core/transmart-server/build/libs
 sudo cp transmart-server-17.1-SNAPSHOT.war /var/lib/tomcat7/webapps/transmart.war
 cd /var/lib/tomcat7/webapps
-sudo chown tomcat7:tomcat7 transmart.war
+# If tomcat is not already running:
 sudo service tomcat7 start
 ```
 
@@ -223,14 +218,24 @@ sudo ln -s /var/lib/tomcat7/shared/ shared
 
 #### Setting up config files
 
-Getting warnings in the tomcat catalina.out log like: `WARN org.transmart.server.Application - Configuration file /usr/share/tomcat7/.gails/transmartConfig/Config.groovy does not exist.`
+If getting warnings in the tomcat catalina.out log like: `WARN org.transmart.server.Application - Configuration file /usr/share/tomcat7/.grails/transmartConfig/Config.groovy does not exist.` note that the configuration files might instead be in `/home/transmart/.grails/transmartConfig/`
 
-Our configuration file is actually in `/home/transmart/.grails/transmartConfig/`
+Rerun the `Install config files` step with the correct `TSUSER_HOME` variable and ensure correct access to the user that will run the transmart application.
 
 ```
 cd /usr/share/tomcat7
-sudo ln -s /home/transmart/.grails/ .grails
+chown -R tomcat7:tomcat7 .grails
 ```
+
+#### Error after log in
+Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`. Stop the process and update the transmart config file. Update `.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
+```
+cd /usr/share/tomcat7/.grails/transmartConfig
+nano Config.groovy
+# update the transmart url and save
+```
+Start the app again and the login should work.
+
 
 ## Test the REST-API
 
