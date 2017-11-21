@@ -6,6 +6,15 @@ The guide follows the publicly available installation instructions (https://gith
 
 ## Setup before installing
 
+### Set up a transmart account
+
+```
+sudo adduser transmart
+sudo adduser transmart sudo
+  
+# log out and log back in with your new user
+```
+
 ### Check disk space
 
 `df -h`
@@ -23,6 +32,15 @@ sudo apt-get install openjdk-8-jdk
 sudo update-alternatives --config java
 sudo update-alternatives --config javac
 ```
+
+If not installed, can just install by:
+
+```
+sudo apt-get install openjdk-8-jdk
+```
+
+TO-DO: decide which Java version we are using???
+
 Set paths in /etc/environment: 
 
 `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64`
@@ -35,25 +53,19 @@ Add the jdk path to `PATH` as well
 
 ```
 curl -s https://get.sdkman.io | bash
+#Source path provided as output
 sdk version
 sdk use gradle 2.13
 ```
 
 To check which gradle is used, type in `sdk list gradle` (http://sdkman.io/usage.html).
-
-### Set up a transmart account
-
-```
-sudo adduser transmart
-sudo adduser transmart sudo
-  
-# log out and log back in with your new user
-```
+If the setting of which gradle is to be used fails with the sdk use command, then 
 
 ### Get the source code
 
 ```
 cd /datastore
+sudo apt-get install git
 sudo git clone https://github.com/thehyve/transmart-core
 sudo chown transmart:transmart transmart-core/ -R
 ```
@@ -73,6 +85,20 @@ If encountering errors, check the version of gradle that is being used.
 
 ```
 cd /datastore/transmart-core/transmart-data
+
+# Installation of php5 on Ubuntu 16.04
+sudo apt-get purge `dpkg -l | grep php| awk '{print $2}' |tr "\n" " "`
+sudo add-apt-repository ppa:ondrej/php
+sudo add-apt-repository ppa:ondrej/apache2
+sudo apt-get update
+sudo apt-get install php5.6
+# Check installation
+php -v
+
+# Update dependency check for php
+nano /datastore/transmart-core/transmart-data/env/Makefile
+# Remove php5-cli and php5-json from dependency check
+
 sudo make -C env ubuntu_deps_root
 make -C env ubuntu_deps_regular
 
