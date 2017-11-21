@@ -102,7 +102,21 @@ If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment
 
 ### Install prerequisites
 
-TO-DO: instructions for installation of tomcat
+Installed tomcat7 by using the command:
+
+```sudo apt-get install tomcat7```
+
+Modify config for tomcat7:
+
+```sudo nano /etc/default/tomcat7```
+
+Modify line containing JAVA_HOME to the installed JAVA version.
+
+Restart tomcat7:
+
+```sudo service tomcat7 restart```
+
+Check that it works: `http://serverurl:8080/`
 
 ### Solr
 
