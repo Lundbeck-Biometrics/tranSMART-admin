@@ -72,15 +72,6 @@ sudo chown transmart:transmart transmart-core/ -R
 
 ## Installation
 
-### Build the `transmart.war` app:
-
-```
-cd /datastore/transmart-core
-gradle :transmart-server:bootRepackage
-```
-
-If encountering errors, check the version of gradle that is being used.
-
 ### Set up the database (transmart-data)
 
 ```
@@ -102,7 +93,6 @@ nano /datastore/transmart-core/transmart-data/env/Makefile
 sudo make -C env ubuntu_deps_root
 make -C env ubuntu_deps_regular
 
-sudo su postgres
 . ./vars
 make postgres_drop
 make -j4 postgres
@@ -111,10 +101,6 @@ make -j4 postgres
 If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones adding a constraint using `biomart`), and run the drop and postgres commands again.
 
 ### Install prerequisites
-
-```
-sudo apt-get install php
-```
 
 TO-DO: instructions for installation of tomcat
 
@@ -149,6 +135,15 @@ nano vars
 . ./vars
 make -C config install
 ```
+
+### Build the `transmart.war` app:
+
+```
+cd /datastore/transmart-core
+gradle :transmart-server:bootRepackage
+```
+
+If encountering errors, check the version of gradle that is being used.
 
 ### Start transmart
 
