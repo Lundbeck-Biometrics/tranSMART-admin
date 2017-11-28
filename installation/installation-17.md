@@ -23,7 +23,11 @@ Additional storage should be mounted on `/datastore`. This is the drive that wil
 
 ### Install java jdk: 
 
-Note: As far as we can see, both Java 7 and Java 8 need to be installed. The transmart web app uses Java 8 and transmart-data uses Java 7.
+Java 8 should be installed. 
+
+```
+sudo apt-get install openjdk-8-jdk
+```
 
 If Java 7 is already installed, install Java 8, and choose the right version using the update-alternatives commands below.
 
@@ -35,19 +39,11 @@ sudo update-alternatives --config java
 sudo update-alternatives --config javac
 ```
 
-And similarly if Java 8 is already installed but you need to install Java 7 as well.
-
-If the version is not installed, can just install by:
-
-```
-sudo apt-get install openjdk-8-jdk
-```
-
-Set paths in /etc/environment: 
+Set `JAVA_HOME` in /etc/environment: 
 
 `JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64`
 
-Add the jdk path to `PATH` as well 
+Add the jdk path to `PATH` as well
 
 `source /etc/environment`
 
@@ -89,9 +85,10 @@ sudo apt-get install php5.6
 # Check installation
 php -v
 
-# Update dependency check for php
+# Update dependency checks
 nano /datastore/transmart-core/transmart-data/env/Makefile
 # Remove php5-cli and php5-json from dependency check
+# Replace java 7 with java 8
 
 sudo make -C env ubuntu_deps_root
 make -C env ubuntu_deps_regular
@@ -110,7 +107,7 @@ If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment
 sudo apt-get install tomcat7
 # Modify config for tomcat7:
 sudo nano /etc/default/tomcat7
-# Modify line containing JAVA_HOME to the installed JAVA version. Use JAVA 8 here.
+# Modify line containing JAVA_HOME to the installed JAVA version if you have multiple java versions. Use JAVA 8.
 # Modify line containing JAVA_OPTS to include -Xms512m -Xmx2g (issue described here: https://wiki.transmartfoundation.org/pages/viewpage.action?pageId=9535811)
 # Restart tomcat7:
 sudo service tomcat7 restart
@@ -131,7 +128,7 @@ Solr will then run at `http://serverurl:8983/solr`
 
 ### RServe
 
-Install:
+Install (this will take a while):
 
 ```
 sudo apt-get install r-base-core
@@ -147,6 +144,7 @@ Run:
 
 ```
 sudo su
+. ./vars
 TRANSMART_USER=tomcat7 make -C R install_rserve_init
 update-rc.d rserve defaults 85 # to enable the service
 exit
@@ -166,9 +164,8 @@ exit
 
 ### Build the `transmart.war` app:
 
-For building the transmart.war app we use Java 8.
-Switch JAVA_HOME
-Use correct version of gradle with sdkman
+Ensure that you are using Java 8 (switch JAVA_HOME if needed).
+Use correct version of gradle with sdkman.
 
 ```
 cd /datastore/transmart-core
@@ -189,9 +186,14 @@ Go to that URL and log in.
 
 ## Deploy transmart.war to Tomcat
 
-### Deploy transmart to tomcat
+### Build for deployment to tomcat
 
-If the above app runs without problems, then we can now deploy the app to Tomcat.
+```
+cd /datastore/transmart-core
+gradle :transmart-server:war
+```
+
+### Deploy transmart to tomcat
 
 ```
 cd /datastore/transmart-core/transmart-server/build/libs
@@ -228,13 +230,26 @@ chown -R tomcat7:tomcat7 .grails
 ```
 
 #### Error after log in
-Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`. Stop the process and update the transmart config file. Update `.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
+
+This error can occur if you are not accessing transmart from same machine it is installed. Redirect takes us to http://localhost:8080/userLanding and Error is `localhost refused to connect`. Stop the process and update the transmart config file. Update `.grails/transmartConfig/Config.groovy` with the actual `transmarturl` (instead of `localhost`):
 ```
 cd /usr/share/tomcat7/.grails/transmartConfig
 nano Config.groovy
 # update the transmart url and save
 ```
 Start the app again and the login should work.
+
+#### Error with build folder
+
+Error in catalina.out that it cannot find some cache file under the `build` folder in path `/var/lib/tomcat7`.
+
+```
+cd /var/lib/tomcat7
+sudo mkdir build
+sudo chown tomcat7:tomcat7 build
+```
+
+Error dissapeared after creating the folder.
 
 
 ## Test the REST-API
