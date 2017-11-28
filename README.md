@@ -12,9 +12,8 @@ The `post-install-fixes` folder includes scripts and guides on how to "enable" f
 
 The `troubleshooting` folder includes scripts and guides for troubleshooting common issues, such as whether the necessary services are running, or a list of tables from which data needs to be deleted before reloading data.
 
-The `maintenance` folder includes scripts and guides for common maintenance tasks, for example, a checklist of what to do after a server restart, and how to create database backups. 
+The `maintenance` folder includes scripts and guides for common maintenance tasks, for example, a checklist of what to do after a server restart, and how to create database backups. A script (in postgreSQL) for extracting a DB table count for all tables in all schemas is located here (for the moment). 
 
 ## Guides
 
 The `guides` folder contains info on common tasks performed by either tranSMART admins or users, such as how to set up a conection from R to tranSMART. 
-
