@@ -260,3 +260,24 @@ TO-DO: test the RESP API and apply the fix as from 16.2 if needed
 ## Post-install setup
 
 TO-DO: move database location and R jobs output location
+
+## Notes on tranSMART Deployment 
+
+### Deploying tranSMART with JAVA 
+Before deploying the tranSMART build with JAVA, please make sure to check whether tranSMART is already deployed and therefore running. Use the following command in the shell to test: 
+
+````
+ps aux | grep java
+````
+
+If tranSMART is running you should see a line similar to the one below: 
+
+````
+transma+ 28374 11.2 10.2 18758936 5052564 pts/9 Sl  12:29   3:31 java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war
+````
+The natural number displayed in the second column from the left is the process ID, which is of interest if you should wish to kill/terminate the tranSMART application.
+
+### Killing/terminating tranSMART deployed with JAVA
+
+
+### Deploying tranSMART with TOMCAT
