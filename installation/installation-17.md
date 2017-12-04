@@ -264,6 +264,8 @@ TO-DO: move database location and R jobs output location
 ## Notes on tranSMART Deployment 
 
 ### Deploying tranSMART with JAVA 
+
+#### Checking whether tranSMART is already running
 Before deploying the tranSMART build with JAVA, please make sure to check whether tranSMART is already deployed and therefore running. Use the following command in the shell to test: 
 
 ````
@@ -277,7 +279,12 @@ transma+ 28374 11.2 10.2 18758936 5052564 pts/9 Sl  12:29   3:31 java -jar trans
 ````
 The natural number displayed in the second column from the left is the process ID, which is of interest if you should wish to kill/terminate the tranSMART application.
 
-### Killing/terminating tranSMART deployed with JAVA
+#### Killing/terminating tranSMART deployed with JAVA
+Killing the tranSMART application, i.e. ending deployment, can be achieved by: 
 
+````
+kill [process ID]
+````
 
-### Deploying tranSMART with TOMCAT
+#### Initiating deployment of tranSMART with JAVA
+TODO: Describe the .sh script for starting tranSMART with JAVA
