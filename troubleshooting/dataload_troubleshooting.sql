@@ -64,3 +64,9 @@ DELETE FROM biomart.BIO_ASSAY_ANALYSIS WHERE bio_assay_analysis_id = EDITME;
 DELETE FROM biomart.BIO_EXPERIMENT WHERE accession = 'MAGIC';
 DELETE FROM biomart.BIO_DATA_UID WHERE bio_data_type = 'BIO_EXPERIMENT' AND bio_data_id NOT IN (SELECT BIO_EXPERIMENT_ID FROM biomart.BIO_EXPERIMENT);
 
+-- Delete SNP dictionary info
+delete from deapp.de_rc_snp_info;
+delete from deapp.de_snp_info;
+delete from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
+delete from searchapp.search_keyword where data_category='SNP';
+
