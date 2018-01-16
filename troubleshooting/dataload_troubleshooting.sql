@@ -56,12 +56,16 @@ UPDATE deapp.de_gpl_info SET marker_type = 'Gene Expression' WHERE platform = 'L
 UPDATE biomart.bio_experiment SET bio_experiment_type = 'experiment' WHERE accession = 'MAGIC';
 
 -- Delete MAGIC dataset load
--- REMEMBER to assign correct bio_assay_analysis_id where it states EDITME
+-- To identify the bio_assay_analysis_id to use for deleting: 
+-- select analysis_name, bio_assay_analysis_id from biomart.bio_assay_analysis;
+-- Update EDITME in what follows with the bio_assay_analysis_id corresponding to the dataset to be deleted
 DELETE FROM biomart.BIO_ASSAY_ANALYSIS_GWAS WHERE bio_assay_analysis_id = EDITME;
 DELETE FROM biomart.BIO_ASY_ANALYSIS_GWAS_TOP50 WHERE bio_assay_analysis_id = EDITME;
 DELETE FROM biomart.BIO_ASSAY_ANALYSIS_EXT WHERE bio_assay_analysis_id = EDITME;
 DELETE FROM biomart.BIO_ASSAY_ANALYSIS WHERE bio_assay_analysis_id = EDITME;
-DELETE FROM biomart.BIO_EXPERIMENT WHERE accession = 'MAGIC';
+-- To identify dataset accession to use for deleting:
+-- select accession from biomart.bio_experiment;
+DELETE FROM biomart.BIO_EXPERIMENT WHERE accession = 'DATASET_MAGIC';
 DELETE FROM biomart.BIO_DATA_UID WHERE bio_data_type = 'BIO_EXPERIMENT' AND bio_data_id NOT IN (SELECT BIO_EXPERIMENT_ID FROM biomart.BIO_EXPERIMENT);
 
 -- Delete SNP dictionary info
