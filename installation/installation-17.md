@@ -65,8 +65,9 @@ If the setting of which gradle is to be used fails with the sdk use command, the
 ```
 cd /datastore
 sudo apt-get install git
-sudo git clone https://github.com/thehyve/transmart-core
+sudo mkdir transmart-core
 sudo chown transmart:transmart transmart-core/ -R
+git clone https://github.com/thehyve/transmart-core transmart-core
 ```
 
 ## Installation
