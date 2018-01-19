@@ -316,5 +316,8 @@ gradle shadowJar
 Transmart-batch is now ready to use (using transmart-batch.sh and corresponding params). 
 Check the data loading instructions.
 
-Note: Before you load GWAS data, ensure that you have first loaded the SNP info dictionary.
+Note: Before you load GWAS data, ensure that you have first loaded the SNP info dictionary. That is done by a separate data loading component, for which Apache Maven is required, so better install that as well:
 
+```
+sudo apt-get install maven
+```
