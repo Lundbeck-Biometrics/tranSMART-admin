@@ -289,3 +289,35 @@ kill [process ID]
 
 #### Initiating deployment of tranSMART with JAVA
 TODO: Describe the .sh script for starting tranSMART with JAVA
+
+
+## Data Loading
+
+To load with transmart-batch:
+
+```
+cd /datastore/transmart-core/transmart-batch
+nano batchdb.properties
+```
+
+Add:
+```
+batch.jdbc.driver=org.postgresql.Driver
+batch.jdbc.url=jdbc:postgresql://localhost:5432/transmart
+batch.jdbc.user=tm_cz
+batch.jdbc.password=tm_cz
+```
+
+Build:
+```
+gradle shadowJar
+```
+
+Run:
+
+```
+./transmart-batch.sh [options] -p <params file>
+```
+
+Note: Before you load GWAS data, ensure that you have first loaded the SNP info dictionary.
+
