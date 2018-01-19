@@ -101,21 +101,6 @@ make -j4 postgres
 
 If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones adding a constraint using `biomart`), and run the drop and postgres commands again.
 
-### Install Tomcat
-
-```
-# Install tomcat7 by using the command:
-sudo apt-get install tomcat7
-# Modify config for tomcat7:
-sudo nano /etc/default/tomcat7
-# Modify line containing JAVA_HOME to the installed JAVA version if you have multiple java versions. Use JAVA 8.
-# Modify line containing JAVA_OPTS to include -Xms512m -Xmx2g (issue described here: https://wiki.transmartfoundation.org/pages/viewpage.action?pageId=9535811)
-# Restart tomcat7:
-sudo service tomcat7 restart
-```
-
-Check that it works: `http://serverurl:8080/`
-
 ### Solr
 
 ```
@@ -151,9 +136,27 @@ update-rc.d rserve defaults 85 # to enable the service
 exit
 ```
 
-### Install config files
+### Install Tomcat (if using tomcat for deployment)
 
 ```
+# Install tomcat7 by using the command:
+sudo apt-get install tomcat7
+# Modify config for tomcat7:
+sudo nano /etc/default/tomcat7
+# Modify line containing JAVA_HOME to the installed JAVA version if you have multiple java versions. Use JAVA 8.
+# Modify line containing JAVA_OPTS to include -Xms512m -Xmx2g (issue described here: https://wiki.transmartfoundation.org/pages/viewpage.action?pageId=9535811)
+# Restart tomcat7:
+sudo service tomcat7 restart
+```
+
+Check that it works: `http://serverurl:8080/`
+
+### Install config files
+
+If using tomcat for deployment:
+
+```
+cd /datastore/transmart-core/transmart-data
 nano vars
 # Add TSUSER_HOME=/usr/share/tomcat7/
 # And add TSUSER_HOME to export statement
@@ -162,6 +165,26 @@ sudo su
 make -C config install
 exit
 ```
+
+Otherwise no need to set the user. The config will be copied to transmart's user home folder:
+
+```
+cd /datastore/transmart-core/transmart-data
+sudo su
+. ./vars
+make -C config install
+exit
+```
+
+### Update config file
+
+Enable GWAVA in order to have allow the GWAS module to create QQPlots and ManhattanPlots:
+
+```
+nano ~/.grails/transmartConfig/Config.groovy
+```
+
+(or is using deployment on tomcat: `/usr/share/tomcat7/.grails/transmartConfig/Config.groovy`)
 
 ### Build the `transmart.war` app:
 
@@ -185,7 +208,7 @@ TranSMART server will run at `http://serverlurl:8080/`
 Go to that URL and log in.
 
 
-## Deploy transmart.war to Tomcat
+## (OPTIONAL) Deploy transmart.war to Tomcat
 
 ### Build for deployment to tomcat
 
