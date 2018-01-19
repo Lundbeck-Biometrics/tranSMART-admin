@@ -182,6 +182,7 @@ Enable GWAVA in order to have allow the GWAS module to create QQPlots and Manhat
 
 ```
 nano ~/.grails/transmartConfig/Config.groovy
+# Set: org.transmartproject.app.gwavaEnabled = true
 ```
 
 (or is using deployment on tomcat: `/usr/share/tomcat7/.grails/transmartConfig/Config.groovy`)
