@@ -308,16 +308,13 @@ batch.jdbc.user=tm_cz
 batch.jdbc.password=tm_cz
 ```
 
-Build:
+Build (this will generate a .jar file in `transmart-batch/build/libs/`):
 ```
 gradle shadowJar
 ```
 
-Run:
-
-```
-./transmart-batch.sh [options] -p <params file>
-```
+Transmart-batch is now ready to use (using transmart-batch.sh and corresponding params). 
+Check the data loading instructions.
 
 Note: Before you load GWAS data, ensure that you have first loaded the SNP info dictionary.
 
