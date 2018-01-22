@@ -74,3 +74,9 @@ delete from deapp.de_snp_info;
 delete from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
 delete from searchapp.search_keyword where data_category='SNP';
 
+-- Quick check on SNP dictionary load - count rows to ensure all data was loaded if you have doubts
+-- All counts below should return the same number (currently the SNP dictionary release used returns 2469309 entries)
+select count(*) from deapp.de_rc_snp_info;
+select count(*) from deapp.de_snp_info;
+select count(*) from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
+select count(*) from searchapp.search_keyword where data_category='SNP';
