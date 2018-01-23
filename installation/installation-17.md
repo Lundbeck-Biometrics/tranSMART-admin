@@ -101,6 +101,42 @@ make -j4 postgres
 
 If the last command fails at `ddl/postgres/i2b2demodata/study.sql`, then comment lines 51 and 52 from that file (the ones adding a constraint using `biomart`), and run the drop and postgres commands again.
 
+
+### Move database location
+
+If loading more than the demo dataset, we have to move the location of the postgres data on the mounted `/datastore`, instead of the default `/var/lib/postgresql`.
+
+Stop service:
+```
+sudo service postgresql stop
+```
+
+Create new folder for the postgres data and move existing data there:
+```
+cd /datastore
+sudo mkdir postgresql
+sudo chown postgres postgresql
+sudo chmod 700 postgresql
+sudo cp -aRv /var/lib/postgresql/. /datastore/postgresql/
+sudo rm -r /var/lib/postgresql/
+```
+
+Checking space status (now things should look better in var):
+```
+sudo du -hs /var
+df
+```
+
+Create the link:
+```
+sudo ln -s /datastore/postgresql /var/lib/postgresql
+```
+
+Start postgresql:
+```
+sudo service postgresql start
+```
+
 ### Solr
 
 ```
