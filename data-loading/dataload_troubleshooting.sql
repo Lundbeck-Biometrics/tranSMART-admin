@@ -68,11 +68,18 @@ DELETE FROM biomart.BIO_ASSAY_ANALYSIS WHERE bio_assay_analysis_id = EDITME;
 DELETE FROM biomart.BIO_EXPERIMENT WHERE accession = 'DATASET_MAGIC';
 DELETE FROM biomart.BIO_DATA_UID WHERE bio_data_type = 'BIO_EXPERIMENT' AND bio_data_id NOT IN (SELECT BIO_EXPERIMENT_ID FROM biomart.BIO_EXPERIMENT);
 
--- Delete SNP dictionary info
+-- Delete all SNP dictionary info
 delete from deapp.de_rc_snp_info;
 delete from deapp.de_snp_info;
 delete from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
 delete from searchapp.search_keyword where data_category='SNP';
+
+-- Delete a specific SNP dictionary (if running on a database that supports multiple SNP dictionaries)
+delete from deapp.de_rc_snp_info where hg_version='19' and dbsnp_version='146';
+delete from deapp.de_snp_info where hg_version='19' and dbsnp_version='146';
+delete from searchapp.search_keyword_term where search_keyword_id in (
+   select search_keyword_id from searchapp.search_keyword where data_category='SNP' and unique_id like 'SNP:19:146%');
+delete from searchapp.search_keyword where data_category='SNP' and unique_id like 'SNP:19:146%';
 
 -- Quick check on SNP dictionary load - count rows to ensure all data was loaded if you have doubts
 -- All counts below should return the same number (currently the SNP dictionary release used returns 2469309 entries)
