@@ -1,8 +1,16 @@
 #!/bin/bash
 
+# Shell script that applies customisations to the public tranSMART code base
+# The customisation can include:
+#   (1) copying files 
+#   (2) updating files
+#   (3) changes to the database
+
 REFERENCES_DIR=./references
 CUSTOM_DIR=./customisations
 TMCORE_DIR=~/Documents/tranSMART/transmart-core
+
+echo "COPYING FILES"
 
 echo "################################################################################"
 echo "### Copy TMService helper script"
@@ -32,6 +40,9 @@ else
     fi
 fi
 
+
+echo "UPDATING EXISTING TRANSMART FILES"
+
 echo "################################################################################"
 echo "### Apply customisation on GWAS analysis metadata available in interface"
 echo "################################################################################"
@@ -58,7 +69,28 @@ else
     echo "DONE! Customisation for file $repo_file applied"
 fi
 
-# TO-DO: apply database customisations, like allowing for multiple dbSNP versions
+echo "################################################################################"
+echo "### Enabling GWAVA to allow for ManhattanPlots and QQPlots in GWAS module"
+echo "################################################################################"
+
+target_file="$TMCORE_DIR/transmart-data/Config/Config-template.groovy"
+#target_file="~/.grails/transmartConfig/Config.groovy"
+
+if grep -Fq "gwavaEnabled = false" $target_file; then
+    echo "Gwava is disabled in Config file $target_file. Enabling..."
+    sed -i '' -e 's/org.transmartproject.app.gwavaEnabled = false/org.transmartproject.app.gwavaEnabled = true/' $target_file
+    echo "DONE! Enabled GWAVA in file $target_file"
+else
+    if grep -Fq "gwavaEnabled = true" $target_file; then
+        echo "Gwava is already enabled in file $target_file"
+    else
+        echo "Can't find config for GWAVA in file $target_file"
+    fi
+fi
+
+echo "APPLY CHANGES TO DATABASE"
+
+# TO-DO: apply database customisations, like allowing for multiple dbSNP versions, and adding the monitoring schema
 
 echo ""
 echo "### DONE ###"
