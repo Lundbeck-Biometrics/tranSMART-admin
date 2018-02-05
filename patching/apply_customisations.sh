@@ -53,6 +53,11 @@ echo "##########################################################################
 
 copy_files "$CUSTOM_DIR/batchdb.properties" "$TMCORE_DIR/transmart-batch/batchdb.properties"
 
+echo "################################################################################"
+echo "### Copy transmart-data vars file"
+echo "################################################################################"
+
+copy_files "$CUSTOM_DIR/vars" "$TMCORE_DIR/transmart-data/vars"
 
 echo "UPDATING EXISTING TRANSMART FILES"
 
