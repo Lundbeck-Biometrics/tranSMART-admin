@@ -34,7 +34,7 @@
     </tr>
     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">p-Value Cut Off:</td> 
-        <td valign="top" class="value">${fieldValue(bean: analysis, field: 'pValueCutoff')} </td> 
+        <td valign="top" class="value">${analysis.pValueCutoff} </td> 
     </tr>
     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">Method:</td>
