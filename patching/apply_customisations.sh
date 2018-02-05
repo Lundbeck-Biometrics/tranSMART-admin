@@ -56,31 +56,46 @@ copy_files "$CUSTOM_DIR/batchdb.properties" "$TMCORE_DIR/transmart-batch/batchdb
 
 echo "UPDATING EXISTING TRANSMART FILES"
 
+update_files() {
+    local reference_file=$1
+    local repo_file=$2
+    local custom_file=$3
+    local overwrite_file=""
+    echo "Updating the file: $repo_file"
+    if [[ $(diff $reference_file $repo_file | wc -l) -ne 0 ]]; then
+        echo "Conflict between our reference and file in repo folder (can be due to changes to repo or the patch is already applied)"
+        diff $reference_file $repo_file
+        read -n 1 -p "Overwrite with customisation? (Y/N):" overwrite_file
+        echo ""
+        if [ "$overwrite_file" = "Y" ]; then
+            cp $custom_file $repo_file 
+            echo "DONE! Updated $repo_file"
+        else
+            echo "Ok. Will not copy."
+        fi
+    else
+        echo "Customisation can be applied"
+        cp $custom_file $repo_file
+        echo "DONE! Customisation for file $repo_file applied"
+    fi
+}
+
 echo "################################################################################"
 echo "### Apply customisation on GWAS analysis metadata available in interface"
 echo "################################################################################"
 
-reference_file="$REFERENCES_DIR/_analysisdetail.gsp"
-repo_file="$TMCORE_DIR/transmartApp/grails-app/views/trial/_analysisdetail.gsp"
-custom_file="$CUSTOM_DIR/_analysisdetail.gsp"
+update_files "$REFERENCES_DIR/_analysisdetail.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/trial/_analysisdetail.gsp" \
+    "$CUSTOM_DIR/_analysisdetail.gsp"
 
-if [[ $(diff $reference_file $repo_file | wc -l) -ne 0 ]]; then
-    echo "Conflict between our reference and file in repo folder (can be due to changes to repo or the patch is already applied)"
-    diff $reference_file $repo_file
-    overwrite_file=""
-    read -n 1 -p "Overwrite with customisation? (Y/N):" overwrite_file
-    echo ""
-    if [ "$overwrite_file" = "Y" ]; then
-        cp $custom_file $repo_file 
-        echo "DONE! Updated $repo_file"
-    else
-        echo "Ok. Will not copy."
-    fi
-else
-    echo "Customisation can be applied"
-    cp $custom_file $repo_file
-    echo "DONE! Customisation for file $repo_file applied"
-fi
+
+echo "################################################################################"
+echo "### Apply customisation of transmart-batch.sh script"
+echo "################################################################################"
+
+update_files "$REFERENCES_DIR/transmart-batch.sh" \
+    "$TMCORE_DIR/transmart-batch/transmart-batch.sh" \
+    "$CUSTOM_DIR/transmart-batch.sh"
 
 echo "################################################################################"
 echo "### Enabling GWAVA to allow for ManhattanPlots and QQPlots in GWAS module"
