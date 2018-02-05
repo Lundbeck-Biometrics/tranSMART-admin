@@ -1,0 +1,16 @@
+PGHOST=
+PGPORT=5432
+PGDATABASE=transmart
+PGUSER=postgres
+PGPASSWORD=
+
+PGSQL_BIN="sudo -E -u postgres /usr/bin/"
+TABLESPACES=/var/lib/postgresql/tablespaces/
+KETTLE_JOBS_PSQL=/datastore/transmart-core/transmart-data/env/tranSMART-ETL/Postgres/GPL-1.0/Kettle/Kettle-ETL/
+KITCHEN=/datastore/transmart-core/transmart-data/env/data-integration/kitchen.sh
+TSUSER_HOME=/home/transmart/
+
+PATH=/datastore/transmart-core/transmart-data/env:$PATH
+
+export PGHOST PGPORT PGDATABASE PGUSER PGPASSWORD TABLESPACES PGSQL_BIN \
+	KETTLE_JOBS_PSQL KITCHEN TSUSER_HOME PATH 
