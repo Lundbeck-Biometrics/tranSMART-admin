@@ -16,33 +16,42 @@ fi
 
 echo "COPYING FILES"
 
+copy_files() {
+    local src_file=$1
+    local dst_file=$2
+    if [ ! -f $dst_file ]; then
+        echo "$dst_file not found. Will copy now."
+        cp $src_file $dst_file
+        echo "DONE! Added $dst_file"
+    else
+        echo "$dst_file already exists. Checking for differences."
+        if [[ $(diff $src_file $dst_file | wc -l) -ne 0 ]]; then
+            echo "File is different. Overwrite?"
+            read -n 1 -p "Overwrite? (Y/N):" overwrite_file
+            echo ""
+            if [ "$overwrite_file" = "Y" ]; then
+                cp $src_file $dst_file 
+                echo "DONE! Updated $dst_file"
+            else
+                echo "Ok. Will not copy."
+            fi
+        else
+            echo "Files identical. Will not copy."
+        fi
+    fi
+}
+
 echo "################################################################################"
 echo "### Copy TMService helper script"
 echo "################################################################################"
 
-src_file="$CUSTOM_DIR/TMService.sh"
-dst_file="$TMCORE_DIR/TMService.sh"
+copy_files "$CUSTOM_DIR/TMService.sh" "$TMCORE_DIR/TMService.sh"
 
-if [ ! -f $dst_file ]; then
-    echo "$dst_file not found. Will copy now."
-    cp $src_file $dst_file
-    echo "DONE! Added $dst_file"
-else
-    echo "$dst_file already exists. Checking for differences."
-    if [[ $(diff $src_file $dst_file | wc -l) -ne 0 ]]; then
-        echo "File is different. Overwrite?"
-        read -n 1 -p "Overwrite? (Y/N):" overwrite_file
-        echo ""
-        if [ "$overwrite_file" = "Y" ]; then
-            cp $src_file $dst_file 
-            echo "DONE! Updated $dst_file"
-        else
-            echo "Ok. Will not copy."
-        fi
-    else
-        echo "Files identical. Will not copy."
-    fi
-fi
+echo "################################################################################"
+echo "### Copy transmart-batch database properties file"
+echo "################################################################################"
+
+copy_files "$CUSTOM_DIR/batchdb.properties" "$TMCORE_DIR/transmart-batch/batchdb.properties"
 
 
 echo "UPDATING EXISTING TRANSMART FILES"
