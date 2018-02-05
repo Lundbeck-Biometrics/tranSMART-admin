@@ -8,7 +8,11 @@
 
 REFERENCES_DIR=./references
 CUSTOM_DIR=./customisations
-TMCORE_DIR=~/Documents/tranSMART/transmart-core
+if [ "$(uname)" == "Darwin" ]; then
+    TMCORE_DIR=~/Documents/tranSMART/transmart-core
+elif [ "$(uname)" == "Linux" ]; then
+    TMCORE_DIR=/datastore/transmart-core
+fi
 
 echo "COPYING FILES"
 
@@ -73,12 +77,16 @@ echo "##########################################################################
 echo "### Enabling GWAVA to allow for ManhattanPlots and QQPlots in GWAS module"
 echo "################################################################################"
 
-target_file="$TMCORE_DIR/transmart-data/Config/Config-template.groovy"
+target_file="$TMCORE_DIR/transmart-data/config/Config-template.groovy"
 #target_file="~/.grails/transmartConfig/Config.groovy"
 
 if grep -Fq "gwavaEnabled = false" $target_file; then
     echo "Gwava is disabled in Config file $target_file. Enabling..."
-    sed -i '' -e 's/org.transmartproject.app.gwavaEnabled = false/org.transmartproject.app.gwavaEnabled = true/' $target_file
+    if [ "$(uname)" == "Darwin" ]; then
+        sed -i '' -e 's/org.transmartproject.app.gwavaEnabled = false/org.transmartproject.app.gwavaEnabled = true/' $target_file
+    elif [ "$(uname)" == "Linux" ]; then
+        sed -i 's/org.transmartproject.app.gwavaEnabled = false/org.transmartproject.app.gwavaEnabled = true/' $target_file
+    fi
     echo "DONE! Enabled GWAVA in file $target_file"
 else
     if grep -Fq "gwavaEnabled = true" $target_file; then
@@ -88,7 +96,7 @@ else
     fi
 fi
 
-echo "APPLY CHANGES TO DATABASE"
+# echo "APPLY CHANGES TO DATABASE"
 
 # TO-DO: apply database customisations, like allowing for multiple dbSNP versions, and adding the monitoring schema
 

@@ -4,7 +4,11 @@
 
 REFERENCES_DIR=./references
 CUSTOM_DIR=./customisations
-TMCORE_DIR=~/Documents/tranSMART/transmart-core
+if [ "$(uname)" == "Darwin" ]; then
+    TMCORE_DIR=~/Documents/tranSMART/transmart-core
+elif [ "$(uname)" == "Linux" ]; then
+    TMCORE_DIR=/datastore/transmart-core
+fi
 
 echo "################################################################################"
 echo "### UPDATING EXISTING TRANSMART FILES"
