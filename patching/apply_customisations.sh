@@ -93,6 +93,13 @@ update_files "$REFERENCES_DIR/_analysisdetail.gsp" \
     "$TMCORE_DIR/transmartApp/grails-app/views/trial/_analysisdetail.gsp" \
     "$CUSTOM_DIR/_analysisdetail.gsp"
 
+echo "################################################################################"
+echo "### Apply customisation on GWAS region search available in interface"
+echo "################################################################################"
+
+update_files "$REFERENCES_DIR/_regionFilter.gsp" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/views/GWAS/_regionFilter.gsp" \
+    "$CUSTOM_DIR/_regionFilter.gsp"
 
 echo "################################################################################"
 echo "### Apply customisation of transmart-batch.sh script"
@@ -124,6 +131,10 @@ else
         echo "Can't find config for GWAVA in file $target_file"
     fi
 fi
+
+# TO-DO: add grailsApplication.config.com.recomdata.gwas.usehg38table = true in the Config
+
+# TO-DO: add any GWAS fixes that havent been applied yet on the public repo
 
 # echo "APPLY CHANGES TO DATABASE"
 
