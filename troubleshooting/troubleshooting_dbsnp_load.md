@@ -45,3 +45,18 @@ select rs_id, chrom, pos, count(*) from tm_lz.vcf38 group by rs_id, chrom, pos h
 
 Type `\q` to exit psql.
 
+Another potential cause for the performance issues could the the index (https://use-the-index-luke.com/sql/dml/insert). Each time we add a row, the index would need to update. 
+
+If we plan to remove the count for checking if we already have a SNP in the table, then we don't need the index when we load the dictionary. 
+
+Drop index before load:
+
+```
+DROP INDEX deapp.de_snp_chrompos_ind;
+```
+
+Recreate index after load:
+
+```
+CREATE INDEX de_snp_chrompos_ind ON de_snp_info USING btree (chrom, chrom_pos);
+```
