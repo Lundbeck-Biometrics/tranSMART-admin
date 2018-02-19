@@ -5,7 +5,7 @@ Issue: the loading of the dbSNP dictionary (common_all dbSNP v150 hg38) has been
 CPU is used 100% by postgres. Memory usage is not a problem. 
 
 Looking into the code, it is probably the COUNT that is done for each SNP, in order to check if the SNP info already exists in the table. 
-This can be very expensive, and with Postgres it would be better to use the `EXISTS` instead of `COUNT`.
+This can be very expensive, and with Postgres it would be better to use the `EXISTS` instead of `COUNT` (https://blog.jooq.org/2016/09/14/avoid-using-count-in-sql-when-you-could-use-exists/).
 
 Could for now try to load directly without doing the check if the SNP already exists. 
 
@@ -45,7 +45,7 @@ select rs_id, chrom, pos, count(*) from tm_lz.vcf38 group by rs_id, chrom, pos h
 
 Type `\q` to exit psql.
 
-Another potential cause for the performance issues could the the index (https://use-the-index-luke.com/sql/dml/insert). Each time we add a row, the index would need to update. 
+Another potential contributor to the performance issues could be the index (https://use-the-index-luke.com/sql/dml/insert). Each time we add a row, the index would need to update. 
 
 If we plan to remove the count for checking if we already have a SNP in the table, then we don't need the index when we load the dictionary. 
 
