@@ -58,5 +58,67 @@ DROP INDEX deapp.de_snp_chrompos_ind;
 Recreate index after load:
 
 ```
-CREATE INDEX de_snp_chrompos_ind ON de_snp_info USING btree (chrom, chrom_pos);
+CREATE INDEX deapp.de_snp_chrompos_ind ON de_snp_info USING btree (chrom, chrom_pos);
+ALTER INDEX deapp.de_snp_chrompos_ind SET TABLESPACE indx;
+```
+
+Same for de_rc_snp_info table.
+
+Check which indexes are currently available:
+```
+select *
+from pg_indexes
+where tablename like 'de_rc_snp_info%';
+
+transmart-# where tablename like 'de_rc_snp_info%';
+ schemaname |   tablename    |          indexname           | tablespace |                                             indexdef
+------------+----------------+------------------------------+------------+--------------------------------------------------------------------------------------------------
+ deapp      | de_rc_snp_info | ind_vcf_rsid                 | indx       | CREATE INDEX ind_vcf_rsid ON deapp.de_rc_snp_info USING btree (rs_id)
+ deapp      | de_rc_snp_info | ind_vcf_pos                  | indx       | CREATE INDEX ind_vcf_pos ON deapp.de_rc_snp_info USING btree (pos)
+ deapp      | de_rc_snp_info | de_rsnp_hgrs_ind             | indx       | CREATE UNIQUE INDEX de_rsnp_hgrs_ind ON deapp.de_rc_snp_info USING btree (hg_version, rs_id)
+ deapp      | de_rc_snp_info | de_rsnp_chrompos_ind         | indx       | CREATE INDEX de_rsnp_chrompos_ind ON deapp.de_rc_snp_info USING btree (chrom, pos)
+ deapp      | de_rc_snp_info | de_rsnp_chrom_comp_idx       | indx       | CREATE INDEX de_rsnp_chrom_comp_idx ON deapp.de_rc_snp_info USING btree (chrom, hg_version, pos)
+ deapp      | de_rc_snp_info | de_rc_snp_info_rs_id_idx     | indx       | CREATE INDEX de_rc_snp_info_rs_id_idx ON deapp.de_rc_snp_info USING btree (rs_id)
+ deapp      | de_rc_snp_info | de_rc_snp_info_entrez_id_idx | indx       | CREATE INDEX de_rc_snp_info_entrez_id_idx ON deapp.de_rc_snp_info USING btree (entrez_id)
+ deapp      | de_rc_snp_info | de_rc_snp_info_chrom_pos_idx | indx       | CREATE INDEX de_rc_snp_info_chrom_pos_idx ON deapp.de_rc_snp_info USING btree (chrom, pos)
+ deapp      | de_rc_snp_info | de_r_s_i_ind4                | indx       | CREATE INDEX de_r_s_i_ind4 ON deapp.de_rc_snp_info USING btree (snp_info_id)
+(9 rows)
+
+```
+
+Drop indexes:
+
+```
+DROP INDEX deapp.ind_vcf_rsid;
+DROP INDEX deapp.ind_vcf_pos;
+DROP INDEX deapp.de_rsnp_hgrs_ind;
+DROP INDEX deapp.de_rsnp_chrompos_ind;
+DROP INDEX deapp.de_rsnp_chrom_comp_idx;
+DROP INDEX deapp.de_rc_snp_info_rs_id_idx;
+DROP INDEX deapp.de_rc_snp_info_entrez_id_idx;
+DROP INDEX deapp.de_rc_snp_info_chrom_pos_idx;
+DROP INDEX deapp.de_r_s_i_ind4;
+```
+
+Recreate index after reload:
+
+```
+CREATE INDEX deapp.ind_vcf_rsid ON deapp.de_rc_snp_info USING btree (rs_id);
+CREATE INDEX deapp.ind_vcf_pos ON deapp.de_rc_snp_info USING btree (pos);
+CREATE UNIQUE INDEX deapp.de_rsnp_hgrs_ind ON deapp.de_rc_snp_info USING btree (hg_version, rs_id);
+CREATE INDEX deapp.de_rsnp_chrompos_ind ON deapp.de_rc_snp_info USING btree (chrom, pos);
+CREATE INDEX deapp.de_rsnp_chrom_comp_idx ON deapp.de_rc_snp_info USING btree (chrom, hg_version, pos);
+CREATE INDEX deapp.de_rc_snp_info_rs_id_idx ON deapp.de_rc_snp_info USING btree (rs_id);
+CREATE INDEX deapp.de_rc_snp_info_entrez_id_idx ON deapp.de_rc_snp_info USING btree (entrez_id);
+CREATE INDEX deapp.de_rc_snp_info_chrom_pos_idx ON deapp.de_rc_snp_info USING btree (chrom, pos);
+CREATE INDEX deapp.de_r_s_i_ind4 ON deapp.de_rc_snp_info USING btree (snp_info_id);
+ALTER INDEX deapp.ind_vcf_rsid SET TABLESPACE indx;
+ALTER INDEX deapp.ind_vcf_pos SET TABLESPACE indx;
+ALTER INDEX deapp.de_rsnp_hgrs_ind SET TABLESPACE indx;
+ALTER INDEX deapp.de_rsnp_chrompos_ind SET TABLESPACE indx;
+ALTER INDEX deapp.de_rsnp_chrom_comp_idx SET TABLESPACE indx;
+ALTER INDEX deapp.de_rc_snp_info_rs_id_idx SET TABLESPACE indx;
+ALTER INDEX deapp.de_rc_snp_info_entrez_id_idx SET TABLESPACE indx;
+ALTER INDEX deapp.de_rc_snp_info_chrom_pos_idx SET TABLESPACE indx;
+ALTER INDEX deapp.de_r_s_i_ind4 SET TABLESPACE indx;
 ```
