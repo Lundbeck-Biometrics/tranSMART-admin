@@ -170,3 +170,34 @@ Another approach could be splitting the VCF file into multiple files that we loa
 grep -v "^#" common_all.vcf > common.vcf
 split -l 4000000 common.vcf common
 ```
+
+
+First file load: 2h
+
+Most consuming is the load to searchapp. 
+
+Queries to check for consistency between the 4 tables where the data is loaded:
+
+```
+select count(*) from deapp.de_snp_info;
+select count(*) from deapp.de_rc_snp_info;
+select count(*) from searchapp.search_keyword where data_category='SNP';
+select count(*) from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
+```
+
+Seems that the code that inserts in search_keyword actually checks if the SNP is not already loaded. And this is good, because the info that it wants to load comes from de_snp_info, and thus if we do multiple batches of loading we don’t load all the data from the de_snp_info again in search_keyword. 
+
+However, the update to search_keyword is time consuming (and uses mostly CPU), and we could try skipping it for now by setting the corresponding skip parameters in the config file.
+
+To reload later we can set to true most of the skip params in the VCF config file. 
+The loadVCFData step is looking for a file, and same for loadVCFgene.
+But the two are harmless in that they just load data from tsv files to tm_lz.
+So we just need to provide a file and ensure we skip the actual load in deapp but load in searchapp. 
+
+Note: we will only need to run once since the code for loading in searchapp will check against all that is in de_snp_info and is not in search_keyword. 
+
+12000000 loaded after a b and c
+
+Trying to run d without the search app load
+
+20 mins without the search app load
