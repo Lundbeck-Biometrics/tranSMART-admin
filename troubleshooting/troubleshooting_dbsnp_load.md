@@ -122,3 +122,51 @@ ALTER INDEX deapp.de_rc_snp_info_entrez_id_idx SET TABLESPACE indx;
 ALTER INDEX deapp.de_rc_snp_info_chrom_pos_idx SET TABLESPACE indx;
 ALTER INDEX deapp.de_r_s_i_ind4 SET TABLESPACE indx;
 ```
+
+Turns out that even after removing the COUNT and the indexes, we still have performance problems.
+
+This time with the CPU usage by the Java process. After loading the data into deapp.de_snp_info, the step of loading into deapp.de_rc_snp_info is very slow and it is Java, not Postgres, that uses resources. And the load crashes at loading chromosome 4:
+
+```
+34793443 [main] INFO  org.transmartproject.pipeline.vcf.VCF  - Insert rs185641944:4:81515706 88596310 '' into DE_RC_SNP_INFO ...
+Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceeded
+        at java.nio.CharBuffer.wrap(CharBuffer.java:466)
+        at java.nio.CharBuffer.wrap(CharBuffer.java:487)
+        at org.postgresql.core.Utils.encodeUTF8(Utils.java:63)
+        at org.postgresql.core.v3.SimpleParameterList.getV3Length(SimpleParameterList.java:307)
+        at org.postgresql.core.v3.QueryExecutorImpl.sendBind(QueryExecutorImpl.java:1277)
+        at org.postgresql.core.v3.QueryExecutorImpl.sendOneQuery(QueryExecutorImpl.java:1581)
+        at org.postgresql.core.v3.QueryExecutorImpl.sendQuery(QueryExecutorImpl.java:1096)
+        at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:396)
+        at org.postgresql.jdbc2.AbstractJdbc2Statement.executeBatch(AbstractJdbc2Statement.java:2893)
+        at groovy.sql.BatchingPreparedStatementWrapper.addBatch(BatchingPreparedStatementWrapper.java:62)
+        at groovy.sql.BatchingPreparedStatementWrapper$addBatch.call(Unknown Source)
+        at org.transmartproject.pipeline.vcf.VCF$_loadDeRcSnpInfo_closure1_closure15.doCall(VCF.groovy:169)
+        at sun.reflect.GeneratedMethodAccessor16.invoke(Unknown Source)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:90)
+        at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:233)
+        at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:272)
+        at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:909)
+        at groovy.lang.Closure.call(Closure.java:411)
+        at groovy.lang.Closure.call(Closure.java:427)
+        at groovy.sql.Sql.eachRow(Sql.java:1186)
+        at groovy.sql.Sql.eachRow(Sql.java:1143)
+        at groovy.sql.Sql.eachRow(Sql.java:1082)
+        at groovy.sql.Sql$eachRow.call(Unknown Source)
+        at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:45)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:108)
+        at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:120)
+        at org.transmartproject.pipeline.vcf.VCF$_loadDeRcSnpInfo_closure1.doCall(VCF.groovy:157)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+```
+
+Another approach could be splitting the VCF file into multiple files that we load one by one. The data in the deapp schema is not deleted during reload, so it should be safe to load multiple files. Also, the transmart loader code doesn't have any dependencies on the VCF header, so we can just do a simple split on the file:
+
+```
+grep -v "^#" common_all.vcf > common.vcf
+split -l 4000000 common.vcf common
+```
