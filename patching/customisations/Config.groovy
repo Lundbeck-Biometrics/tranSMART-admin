@@ -23,6 +23,8 @@ org.transmartproject.app.oauthEnabled = true
 org.transmartproject.app.gwavaEnabled = true
 org.transmartproject.app.transmartURL = "http://localhost:${System.getProperty('server.port', '8080')}"
 
+org.transmartproject.enableAcrossTrials = false
+
 //Disabling/Enabling UI tabs
 ui {
     tabs {
@@ -30,10 +32,10 @@ ui {
         search.show = false
         browse.hide = false
         //Note: analyze tab is always shown
-        sampleExplorer.hide = false
+        sampleExplorer.hide = true
         geneSignature.hide = false
         gwas.hide = false
-        uploadData.hide = false
+        uploadData.hide = true
         datasetExplorer {
             gridView.hide = false
             dataExport.hide = false
