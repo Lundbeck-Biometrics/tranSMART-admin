@@ -125,6 +125,14 @@ update_files "$REFERENCES_DIR/gwas_index.gsp" \
     "$CUSTOM_DIR/gwas_index.gsp"
 
 echo "###"
+echo "### Apply customisation on GWAS data types available as filters in the interface"
+echo "###"
+
+update_files "$REFERENCES_DIR/GWASController.groovy" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/controllers/com/recomdata/grails/plugin/gwas/GWASController.groovy" \
+    "$CUSTOM_DIR/GWASController.groovy"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
