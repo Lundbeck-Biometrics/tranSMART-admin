@@ -198,6 +198,8 @@ Note: we will only need to run once since the code for loading in searchapp will
 
 12000000 loaded after a b and c
 
-Trying to run d without the search app load
+Trying to run d without the search app load -> Takes 20 mins per batch without the search app load.
 
-20 mins without the search app load
+Running the searchapp load: took 13 hours. Verified that all data loaded by doing the 4 select count as described above.
+
+Recreate indexes after the dictionary is fully loaded.
