@@ -101,6 +101,15 @@ update_files "$REFERENCES_DIR/_regionFilter.gsp" \
     "$TMCORE_DIR/transmart-gwas-plugin/grails-app/views/GWAS/_regionFilter.gsp" \
     "$CUSTOM_DIR/_regionFilter.gsp"
 
+
+echo "################################################################################"
+echo "### Apply customisation on GWAS interface"
+echo "################################################################################"
+
+update_files "$REFERENCES_DIR/gwas_index.gsp" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/views/GWAS/index.gsp" \
+    "$CUSTOM_DIR/gwas_index.gsp"
+
 echo "################################################################################"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "################################################################################"
