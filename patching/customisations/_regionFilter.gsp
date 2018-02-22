@@ -1,7 +1,7 @@
 
-<div id="regionFilterHelp" style="float: right;">
+<!--<div id="regionFilterHelp" style="float: right;">
 	<tmpl:/GWAS/helpIcon id="1302"/>
-</div>
+</div>-->
 <div><b>Filter by:</b></div>
 <br/>
 <div onclick="jQuery('[name=\'regionFilter\'][value=\'gene\']').attr('checked', true);">
