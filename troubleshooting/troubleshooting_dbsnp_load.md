@@ -1,13 +1,20 @@
-### Troubleshooting the dbSNP load
+## Troubleshooting the dbSNP load
 
-Issue: the loading of the dbSNP dictionary (common_all dbSNP v150 hg38) has been running for almost 7 days, and is still loading chr11 into de_snp_info.
+### Issue
+
+The loading of the dbSNP dictionary (common_all dbSNP v150 hg38, ~8GB) was still loading chr11 into de_snp_info after running for 7 days. Loading in de_snp_info is among one of the first steps in the loading process, so the time is unacceptable. 
+
+### Troubleshooting
+
+#### Resources usage
 
 CPU is used 100% by postgres. Memory usage is not a problem. 
 
-Looking into the code, it is probably the COUNT that is done for each SNP, in order to check if the SNP info already exists in the table. 
-This can be very expensive, and with Postgres it would be better to use the `EXISTS` instead of `COUNT` (https://blog.jooq.org/2016/09/14/avoid-using-count-in-sql-when-you-could-use-exists/).
+#### Source code
 
-Could for now try to load directly without doing the check if the SNP already exists. 
+Looking into the code, it is probably the COUNT that is done for each SNP, in order to check if the SNP info already exists in the table. This can be very expensive, and with Postgres it would be better to use the `EXISTS` instead of `COUNT` (https://blog.jooq.org/2016/09/14/avoid-using-count-in-sql-when-you-could-use-exists/).
+
+We don't expect to have a SNP id multiple times in the table (see check below), so we could for now try to load directly without doing the check if the SNP already exists.
 
 ```
 Number of lines in VCF file: 37463704
@@ -15,6 +22,8 @@ Number of lines in VCF file that contain #: 57
 37463704 - 57 = 37463647
 37463647 = corresponds to the number of rows in the TSV file created by transmart-loader and also the number of rows in the vcf38 table.  
 ```
+
+#### Database
 
 Log in as postgres
 
@@ -32,7 +41,7 @@ WHERE query != '<IDLE>' AND query NOT ILIKE '%pg_stat_activity%'
 ORDER BY query_start desc;
 ```
 
-No duplicates, so would be safe to just copy and skip the counting:
+The query below shows that we have no duplicates, so would be safe to just copy and skip the counting (the check for whether the SNP already exists) as proposed above.
 
 ```
 select rs_id, chrom, pos, count(*) from tm_lz.vcf38 group by rs_id, chrom, pos having count(*) > 1;
@@ -49,6 +58,8 @@ Another potential contributor to the performance issues could be the index (http
 
 If we plan to remove the count for checking if we already have a SNP in the table, then we don't need the index when we load the dictionary. 
 
+### Optimisation 1: remove COUNT and INDEXES
+
 Drop index before load:
 
 ```
@@ -58,7 +69,7 @@ DROP INDEX deapp.de_snp_chrompos_ind;
 Recreate index after load:
 
 ```
-CREATE INDEX deapp.de_snp_chrompos_ind ON de_snp_info USING btree (chrom, chrom_pos);
+CREATE INDEX de_snp_chrompos_ind ON deapp.de_snp_info USING btree (chrom, chrom_pos);
 ALTER INDEX deapp.de_snp_chrompos_ind SET TABLESPACE indx;
 ```
 
@@ -103,15 +114,15 @@ DROP INDEX deapp.de_r_s_i_ind4;
 Recreate index after reload:
 
 ```
-CREATE INDEX deapp.ind_vcf_rsid ON deapp.de_rc_snp_info USING btree (rs_id);
-CREATE INDEX deapp.ind_vcf_pos ON deapp.de_rc_snp_info USING btree (pos);
-CREATE UNIQUE INDEX deapp.de_rsnp_hgrs_ind ON deapp.de_rc_snp_info USING btree (hg_version, rs_id);
-CREATE INDEX deapp.de_rsnp_chrompos_ind ON deapp.de_rc_snp_info USING btree (chrom, pos);
-CREATE INDEX deapp.de_rsnp_chrom_comp_idx ON deapp.de_rc_snp_info USING btree (chrom, hg_version, pos);
-CREATE INDEX deapp.de_rc_snp_info_rs_id_idx ON deapp.de_rc_snp_info USING btree (rs_id);
-CREATE INDEX deapp.de_rc_snp_info_entrez_id_idx ON deapp.de_rc_snp_info USING btree (entrez_id);
-CREATE INDEX deapp.de_rc_snp_info_chrom_pos_idx ON deapp.de_rc_snp_info USING btree (chrom, pos);
-CREATE INDEX deapp.de_r_s_i_ind4 ON deapp.de_rc_snp_info USING btree (snp_info_id);
+CREATE INDEX ind_vcf_rsid ON deapp.de_rc_snp_info USING btree (rs_id);
+CREATE INDEX ind_vcf_pos ON deapp.de_rc_snp_info USING btree (pos);
+CREATE UNIQUE INDEX de_rsnp_hgrs_ind ON deapp.de_rc_snp_info USING btree (hg_version, rs_id);
+CREATE INDEX de_rsnp_chrompos_ind ON deapp.de_rc_snp_info USING btree (chrom, pos);
+CREATE INDEX de_rsnp_chrom_comp_idx ON deapp.de_rc_snp_info USING btree (chrom, hg_version, pos);
+CREATE INDEX de_rc_snp_info_rs_id_idx ON deapp.de_rc_snp_info USING btree (rs_id);
+CREATE INDEX de_rc_snp_info_entrez_id_idx ON deapp.de_rc_snp_info USING btree (entrez_id);
+CREATE INDEX de_rc_snp_info_chrom_pos_idx ON deapp.de_rc_snp_info USING btree (chrom, pos);
+CREATE INDEX de_r_s_i_ind4 ON deapp.de_rc_snp_info USING btree (snp_info_id);
 ALTER INDEX deapp.ind_vcf_rsid SET TABLESPACE indx;
 ALTER INDEX deapp.ind_vcf_pos SET TABLESPACE indx;
 ALTER INDEX deapp.de_rsnp_hgrs_ind SET TABLESPACE indx;
@@ -122,6 +133,8 @@ ALTER INDEX deapp.de_rc_snp_info_entrez_id_idx SET TABLESPACE indx;
 ALTER INDEX deapp.de_rc_snp_info_chrom_pos_idx SET TABLESPACE indx;
 ALTER INDEX deapp.de_r_s_i_ind4 SET TABLESPACE indx;
 ```
+
+### Testing
 
 Turns out that even after removing the COUNT and the indexes, we still have performance problems.
 
@@ -164,13 +177,15 @@ Exception in thread "main" java.lang.OutOfMemoryError: GC overhead limit exceede
         at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 ```
 
+### Optimisation 2: split VCF into smaller files
+
 Another approach could be splitting the VCF file into multiple files that we load one by one. The data in the deapp schema is not deleted during reload, so it should be safe to load multiple files. Also, the transmart loader code doesn't have any dependencies on the VCF header, so we can just do a simple split on the file:
 
 ```
 grep -v "^#" common_all.vcf > common.vcf
 split -l 4000000 common.vcf common
 ```
-
+### Testing
 
 First file load: 2h
 
@@ -185,21 +200,59 @@ select count(*) from searchapp.search_keyword where data_category='SNP';
 select count(*) from searchapp.search_keyword_term where search_keyword_id in (select search_keyword_id from searchapp.search_keyword where data_category='SNP');
 ```
 
+### Optimisation 3: skip the load to searchapp
+
 Seems that the code that inserts in search_keyword actually checks if the SNP is not already loaded. And this is good, because the info that it wants to load comes from de_snp_info, and thus if we do multiple batches of loading we don’t load all the data from the de_snp_info again in search_keyword. 
 
 However, the update to search_keyword is time consuming (and uses mostly CPU), and we could try skipping it for now by setting the corresponding skip parameters in the config file.
 
-To reload later we can set to true most of the skip params in the VCF config file. 
-The loadVCFData step is looking for a file, and same for loadVCFgene.
-But the two are harmless in that they just load data from tsv files to tm_lz.
-So we just need to provide a file and ensure we skip the actual load in deapp but load in searchapp. 
+To reload later into searchapp we can set to true most of the skip params in the VCF config file. 
+* The loadVCFData step is looking for a file, and same for loadVCFgene.
+* But the two are harmless in that they just load data from tsv files to tm_lz.
+* So we just need to provide a file and ensure we skip the actual load in deapp but load in searchapp. 
+* Note: we will only need to run once since the code for loading in searchapp will check against all that is in de_snp_info and is not in search_keyword. 
 
-Note: we will only need to run once since the code for loading in searchapp will check against all that is in de_snp_info and is not in search_keyword. 
+### Testing
 
-12000000 loaded after a b and c
+Running without the searchapp load: takes 20 mins per file.
 
-Trying to run d without the search app load -> Takes 20 mins per batch without the search app load.
+Running the searchapp load: took 13 hours. 
 
-Running the searchapp load: took 13 hours. Verified that all data loaded by doing the 4 select count as described above.
+Config example for loading to searchapp only:
 
-Recreate indexes after the dictionary is fully loaded.
+```
+# *****************************************************************
+# if set to 'yes', vcf_table will not be re-created;
+# otherwise it'll be re-created (drop it first if already exist)
+# *****************************************************************
+skip_create_vcf_table=yes
+skip_create_vcf_index=yes
+
+skip_create_vcf_gene_table=yes
+skip_create_vcf_gene_index=yes
+
+skip_process_vcf_data=yes
+
+
+# ***************************************************************************
+# if set to 'yes', VCF data's REF and ALT columns will be ignored and only
+# "chrom, rs_id, pos, variation class, and gene id/gene symbol" will by loaded
+# from BROAD's VCF data for hg18 and hg19
+# ***************************************************************************
+skip_de_snp_info=yes
+skip_de_snp_gene_map=yes
+skip_de_rc_snp_info=yes
+skip_search_keyword=no
+skip_search_keyword_term=no
+
+```
+
+### Final checks
+
+After the dictionary was fully loaded:
+
+* Verified that all SNPs are loaded by doing the 4 select count as described above.
+* Recreated indexes.
+* Loaded GWAS data with hg38 and checked that the data is shown correctly in the interface.
+
+
