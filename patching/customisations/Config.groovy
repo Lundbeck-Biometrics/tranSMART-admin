@@ -103,7 +103,7 @@ com.recomdata.largeLogo = "transmartlogo.jpg"
 com.recomdata.smallLogo="transmartlogosmall.jpg"
 
 // contact email address
-com.recomdata.contactUs = "transmart-discuss@googlegroups.com"
+com.recomdata.contactUs = "tmadmin@lundbeck.com"
 
 // site administrator contact email address
 com.recomdata.adminEmail = "transmart-discuss@googlegroups.com"

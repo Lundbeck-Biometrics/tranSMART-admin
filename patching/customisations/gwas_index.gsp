@@ -248,7 +248,7 @@
 			});
 		</script>
 		<script type="text/javascript">
-    			var sMailto = "mailto:${grailsApplication.config.com.recomdata.contactUs}?subject=tranSMART Bug/Feature Requests";
+    			var sMailto = "mailto:${grailsApplication.config.com.recomdata.contactUs}?subject=Feedback on tranSMART GWAS module";
  
     			function doMailto() {
        				document.location.href = sMailto;
@@ -336,7 +336,7 @@
 			</div>
 		</div>
               
-		<button id="feedBack"><a href="javascript:doMailto()" style="text-decoration: none;"><font color="#FFFFFF">User Feedback</font></a></button>
+		<button id="feedBack"><a href="javascript:doMailto()" style="text-decoration: none;"><font color="#FFFFFF">Send Feedback</font></a></button>
 
 		<div id="search-div">         
 		  <select id="search-categories"></select>                          
