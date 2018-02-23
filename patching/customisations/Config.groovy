@@ -103,18 +103,24 @@ com.recomdata.largeLogo = "transmartlogo.jpg"
 com.recomdata.smallLogo="transmartlogosmall.jpg"
 
 // contact email address
-com.recomdata.contactUs = "tmadmin@lundbeck.com"
+com.recomdata.contactUs = "transmartadmin@lundbeck.com"
+com.recomdata.searchtool.contactUs = com.recomdata.contactUs 
 
 // site administrator contact email address
-com.recomdata.adminEmail = "transmart-discuss@googlegroups.com"
+com.recomdata.adminEmail = "transmartadmin@lundbeck.com"
+
+// admin email on login page
+com.recomdata.administrator = "transmartadmin@lundbeck.com"
 
 // application title
 com.recomdata.appTitle = "tranSMART v" + grails.util.Metadata.current.getApplicationVersion()
+com.recomdata.searchtool.appTitle = com.recomdata.appTitle
 
 // Location of the help pages. Should be an absolute URL.
 // Currently, these are distribution with transmart,
 // so it can also point to that location copy.
 com.recomdata.adminHelpURL = "${org.transmartproject.app.transmartURL}/help/adminHelp/default.htm"
+com.recomdata.searchtool.adminHelpURL = com.recomdata.adminHelpURL
 
 environments { development {
     com.recomdata.bugreportURL = 'https://jira.transmartfoundation.org'
