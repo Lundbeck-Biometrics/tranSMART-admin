@@ -28,3 +28,4 @@ Change the value to one of the expected ones and reload.
 * Should not have NAs in the data
 * Formatting of metadata file - need to write with \r
 
+Note: After the dataset has completed loading, update the Solr Index in order for the dataset to become visible in the interface.
