@@ -137,6 +137,31 @@ Start postgresql:
 sudo service postgresql start
 ```
 
+### Move R jobs output location
+
+Every time an R job is run, a folder is created with the output. We have to move the jobs folder to datastore instead of the default location, otherwise the disk gets full fast.
+
+Create a new folder for storing the output of the R jobs:
+
+```
+cd /datastore
+sudo mkdir jobs
+sudo chown transmart:transmart jobs
+```
+
+Copy anything needed from /var/tmp/jobs to /datastore/jobs. Or everything, like this:
+
+```
+cp -r /var/tmp/jobs/* /datastore/jobs/
+```
+
+Then remove the old folder and create a link to the new location:
+
+```
+sudo rm -r /var/tmp/jobs/
+sudo ln -s /datastore/jobs /var/tmp/jobs
+```
+
 ### Solr
 
 ```
@@ -317,10 +342,6 @@ Error dissapeared after creating the folder.
 
 TO-DO: test the RESP API and apply the fix as from 16.2 if needed
 
-
-## Post-install setup
-
-TO-DO: move database location and R jobs output location
 
 ## Notes on tranSMART Deployment 
 
