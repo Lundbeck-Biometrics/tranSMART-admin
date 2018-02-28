@@ -140,6 +140,14 @@ update_files "$REFERENCES_DIR/transmart-batch.sh" \
     "$TMCORE_DIR/transmart-batch/transmart-batch.sh" \
     "$CUSTOM_DIR/transmart-batch.sh"
 
+echo "###"
+echo "### Remove dependencies to outside domains"
+echo "###"
+
+update_files "$REFERENCES_DIR/_commonheader.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/layouts/_commonheader.gsp" \
+    "$CUSTOM_DIR/_commonheader.gsp"
+
 # TO-DO: add any GWAS fixes that havent been applied yet on the public repo
 
 # echo "APPLY CHANGES TO DATABASE"
