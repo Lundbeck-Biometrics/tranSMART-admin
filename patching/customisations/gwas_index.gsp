@@ -336,7 +336,7 @@
 			</div>
 		</div>
               
-		<button id="feedBack"><a href="javascript:doMailto()" style="text-decoration: none;"><font color="#FFFFFF">Send Feedback</font></a></button>
+		<a href="javascript:doMailto()" style="text-decoration: none;"><button id="feedBack"><font color="#FFFFFF">Send Feedback</font></button></a>
 
 		<div id="search-div">         
 		  <select id="search-categories"></select>                          
