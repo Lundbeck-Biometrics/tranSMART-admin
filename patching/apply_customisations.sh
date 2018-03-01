@@ -165,6 +165,14 @@ update_files "$REFERENCES_DIR/_utilitiesMenu.gsp" \
     "$CUSTOM_DIR/_utilitiesMenu.gsp"
 
 echo "###"
+echo "### Apply customisation on Gene Signature/List interfaces"
+echo "###"
+
+update_files "$REFERENCES_DIR/genesig_list.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/geneSignature/list.gsp" \
+    "$CUSTOM_DIR/genesig_list.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
