@@ -157,6 +157,14 @@ update_files "$REFERENCES_DIR/login_main.gsp" \
     "$CUSTOM_DIR/login_main.gsp"
 
 echo "###"
+echo "### Apply customisation on Utilities menu"
+echo "###"
+
+update_files "$REFERENCES_DIR/_utilitiesMenu.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/layouts/_utilitiesMenu.gsp" \
+    "$CUSTOM_DIR/_utilitiesMenu.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
