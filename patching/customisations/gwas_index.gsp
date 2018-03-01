@@ -6,6 +6,9 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
         <title>GWAS</title>
+
+		<asset:link rel="shortcut icon" href='searchtool.ico' type="image/x-ico" />
+		<asset:link rel="icon" href='searchtool.ico' type="image/x-ico" />
         
         <!-- Our CSS -->
         <asset:stylesheet href="jquery-plugin.css"/>

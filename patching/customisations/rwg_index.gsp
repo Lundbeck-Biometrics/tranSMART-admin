@@ -7,8 +7,8 @@
 
     <title>tranSMART</title>
 
-<asset:link rel="shortcut icon" href='searchtool.ico' type="image/x-ico" />
-<asset:link rel="icon" href='searchtool.ico' type="image/x-ico" />
+    <asset:link rel="shortcut icon" href='searchtool.ico' type="image/x-ico" />
+    <asset:link rel="icon" href='searchtool.ico' type="image/x-ico" />
 
     <asset:javascript src="jquery-plugin.js"/>
 
