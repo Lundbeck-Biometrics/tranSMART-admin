@@ -141,6 +141,22 @@ update_files "$REFERENCES_DIR/rwg_index.gsp" \
     "$CUSTOM_DIR/rwg_index.gsp"
 
 echo "###"
+echo "### Apply customisation on Admin interface"
+echo "###"
+
+update_files "$REFERENCES_DIR/admin.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/layouts/admin.gsp" \
+    "$CUSTOM_DIR/admin.gsp"
+
+echo "###"
+echo "### Apply customisation on Login interface"
+echo "###"
+
+update_files "$REFERENCES_DIR/login_main.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/layouts/main.gsp" \
+    "$CUSTOM_DIR/login_main.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
