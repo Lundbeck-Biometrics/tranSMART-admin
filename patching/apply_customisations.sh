@@ -133,6 +133,14 @@ update_files "$REFERENCES_DIR/GWASController.groovy" \
     "$CUSTOM_DIR/GWASController.groovy"
 
 echo "###"
+echo "### Apply customisation on Browse interface"
+echo "###"
+
+update_files "$REFERENCES_DIR/rwg_index.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/RWG/index.gsp" \
+    "$CUSTOM_DIR/rwg_index.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 

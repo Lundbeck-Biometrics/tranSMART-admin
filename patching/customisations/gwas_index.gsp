@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" >        
         
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
-        <title>${grailsApplication.config.com.recomdata.searchtool.appTitle}</title>
+        <title>GWAS</title>
         
         <!-- Our CSS -->
         <asset:stylesheet href="jquery-plugin.css"/>
