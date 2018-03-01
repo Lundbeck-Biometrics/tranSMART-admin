@@ -173,6 +173,14 @@ update_files "$REFERENCES_DIR/genesig_list.gsp" \
     "$CUSTOM_DIR/genesig_list.gsp"
 
 echo "###"
+echo "### Apply customisation on Welcome message in Browse tab"
+echo "###"
+
+update_files "$REFERENCES_DIR/_welcome.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/RWG/_welcome.gsp" \
+    "$CUSTOM_DIR/_welcome.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
