@@ -8,9 +8,12 @@
 
 REFERENCES_DIR=./references
 CUSTOM_DIR=./customisations
+DBPORT=5432
 if [ "$(uname)" == "Darwin" ]; then
+    # Mac env
     TMCORE_DIR=~/Documents/tranSMART/transmart-core
 elif [ "$(uname)" == "Linux" ]; then
+    # Ubuntu env
     TMCORE_DIR=/datastore/transmart-core
 fi
 
@@ -198,11 +201,29 @@ update_files "$REFERENCES_DIR/_commonheader.gsp" \
 
 # TO-DO: add any GWAS fixes that havent been applied yet on the public repo
 
-# echo "APPLY CHANGES TO DATABASE"
+echo "################################################################################"
+echo "### APPLY CHANGES TO DATABASE"
+echo "################################################################################"
 
-# TO-DO: apply database customisations, like adding the monitoring schema
+echo "###"
+echo "### Disable default users that are not needed"
+echo "###"
 
-# psql -U tm_cz -d transmart -h localhost -f $CUSTOM_DIR/disable_users.sql
+# Will not check if the users are already disabled since the execution will not fail
+# but will let the user decide if we should go through this process
+
+disable_users=""
+read -n 1 -p "Disable default users? (Y/N):" disable_users
+if [ "$disable_users" = "Y" ]; then
+    psql -U tm_cz -d transmart -h localhost -p $DBPORT -f $CUSTOM_DIR/disable_users.sql
+    echo "DONE! Disabled users"
+else
+    echo "Ok. Will not disable."
+fi
+
+# TO-DO: Add metadata columns using fix_gwas_metadata_analysis_ext.sql
+
+# TO-DO: add the monitoring schema
 
 echo ""
 echo "### DONE ###"
