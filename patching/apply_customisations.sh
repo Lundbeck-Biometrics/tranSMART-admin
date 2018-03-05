@@ -202,5 +202,7 @@ update_files "$REFERENCES_DIR/_commonheader.gsp" \
 
 # TO-DO: apply database customisations, like adding the monitoring schema
 
+# psql -U tm_cz -d transmart -h localhost -f $CUSTOM_DIR/disable_users.sql
+
 echo ""
 echo "### DONE ###"
