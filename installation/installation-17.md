@@ -402,3 +402,24 @@ Note: Before you load GWAS data, ensure that you have first loaded the SNP info 
 ```
 sudo apt-get install maven
 ```
+
+## Access rights update
+
+Apply customisations from patching folder (which includes disabling default users). 
+
+Then from the web interface log in as `admin` and update the `guest` account:
+
+### Updating guest user
+
+Initial setup:
+
+![tm_guest_default](https://user-images.githubusercontent.com/12584735/37081741-b42b1132-21ea-11e8-9963-533193c6762c.png)
+
+Update password, description ("Lundbeck Default Account"), and add `ROLE_PUBLIC_USER`:
+
+![tm_guest_update](https://user-images.githubusercontent.com/12584735/37081769-c4957508-21ea-11e8-9e44-72934ae0bad0.png)
+
+The list should then look like this:
+
+![tm_users_guest_updated](https://user-images.githubusercontent.com/12584735/37081796-d8fbde60-21ea-11e8-94e5-743b8789f47e.png)
+
