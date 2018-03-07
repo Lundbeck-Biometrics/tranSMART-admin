@@ -151,7 +151,7 @@ environments { development {
 
 // Whether to enable guest auto login.
 // If it's enabled no login is required to access tranSMART.
-com.recomdata.guestAutoLogin = false
+com.recomdata.guestAutoLogin = true
 environments { development { com.recomdata.guestAutoLogin = true } }
 
 // Guest account user name - if guestAutoLogin is true, this is the username of
