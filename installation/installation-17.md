@@ -423,3 +423,16 @@ The list should then look like this:
 
 ![tm_users_guest_updated](https://user-images.githubusercontent.com/12584735/37081796-d8fbde60-21ea-11e8-94e5-743b8789f47e.png)
 
+Log out and log in again as guest to check that the new pass works.
+
+### Updating admin user
+
+Initial setup:
+
+![tm_admin_default](https://user-images.githubusercontent.com/12584735/37082528-14982bde-21ed-11e8-888a-4a07a2a6712f.png)
+
+Updade password:
+
+![tm_admin_updated](https://user-images.githubusercontent.com/12584735/37082537-192e8d3c-21ed-11e8-9b8a-7686cecf6dbe.png)
+
+Log out and log in again as guest to check that the new pass works.
