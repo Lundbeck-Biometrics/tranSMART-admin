@@ -97,7 +97,7 @@ com.recomdata.dataUpload.adminEmail = 'No data upload adminEmail value set - con
 
 /* {{{ Personalization */
 // application logo to be used in the login page
-com.recomdata.largeLogo = "transmartlogo.jpg"
+com.recomdata.largeLogo = "lutransmartlogo.jpg"
 
 // application logo to be used in the search page
 com.recomdata.smallLogo="transmartlogosmall.jpg"
