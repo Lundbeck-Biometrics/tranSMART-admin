@@ -136,6 +136,24 @@ update_files "$REFERENCES_DIR/GWASController.groovy" \
     "$CUSTOM_DIR/GWASController.groovy"
 
 echo "###"
+echo "### Apply fix for bug in GWAS Search Controller not being able to show the items over the first 500 immediately"
+echo "### (Pull request created to main repo with branch gwas_performance_postgreSQL_fix)"
+echo "###"
+
+update_files "$REFERENCES_DIR/GWASSearchController.groovy" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/controllers/com/recomdata/grails/plugin/gwas/GWASSearchController.groovy" \
+    "$CUSTOM_DIR/GWASSearchController.groovy"
+
+echo "###"
+echo "### Apply fix for mad Oracle pagination in GWAS Region Search Service"
+echo "### (Pull request created to main repo with branch gwas_performance_postgreSQL_fix)"
+echo "###"
+
+update_files "$REFERENCES_DIR/RegionSearchService.groovy" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/services/com/recomdata/grails/plugin/gwas/RegionSearchService.groovy" \
+    "$CUSTOM_DIR/RegionSearchService.groovy"
+
+echo "###"
 echo "### Apply customisation on Browse interface"
 echo "###"
 
