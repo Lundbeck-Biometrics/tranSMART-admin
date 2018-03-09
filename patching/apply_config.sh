@@ -43,3 +43,6 @@ echo "### Copying the Config.groovy file"
 echo "################################################################################"
 
 copy_files "$CUSTOM_DIR/Config.groovy" $TARGET_FILE
+
+
+#TO-DO: be notified if changes to the Config-template file have been made as we might be interested in those. 
