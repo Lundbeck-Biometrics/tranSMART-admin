@@ -16,10 +16,10 @@
         <td valign="top" class="name" style="text-align: right">Data type:</td>
         <td valign="top" class="value">${fieldValue(bean: analysis, field: 'assayDataType')}</td>
     </tr>
-    <tr class="prop">
+     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">Trait:</td>
-        <td valign="top" class="value">${fieldValue(bean: analysis, field: 'ext.trait')}</td>
-    </tr> 
+        <td valign="top" class="value">${fieldValue(bean: analysis, field: 'ext.traitInv')}</td>
+    </tr>
     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">Population:</td>
         <td valign="top" class="value">${fieldValue(bean: analysis, field: 'ext.population')}</td>
@@ -74,7 +74,7 @@
     </tr>
     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">Path to source:</td>
-        <td valign="top" class="value">${fieldValue(bean: analysis, field: 'ext.pathSource')}</td>
+        <td valign="top" class="value"><a target="_blank" href = ${fieldValue(bean: analysis, field: 'ext.pathSource')}>${fieldValue(bean: analysis, field: 'ext.pathSource')}</a></td>
     </tr>
     <tr class="prop">
         <td valign="top" class="name" style="text-align: right">Dataset release date:</td>

@@ -280,4 +280,5 @@ fi
 
 echo ""
 echo "### DONE ###"
-echo "### Don't forget to rebuild the transmart-core project after applying customizations: gradle :transmart-server:bootRepackage ###"
+echo "### Don't forget to rebuild the transmart-core project after applying customizations: 'gradle :transmart-server:bootRepackage' 
+and in transmart-batch build using 'gradle shadowJar' ###"
