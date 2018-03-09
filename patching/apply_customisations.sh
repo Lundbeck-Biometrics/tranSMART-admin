@@ -272,9 +272,23 @@ if [ "$disable_users" = "Y" ]; then
     echo "DONE! Disabled users"
 else
     echo "Ok. Will not disable."
-fi
+fi 
 
-# TO-DO: Add metadata columns using fix_gwas_metadata_analysis_ext.sql
+echo "###"
+echo "### Add metadata columns using fix_gwas_metadata_analysis_ext.sql"
+echo "###"
+
+# Will not check if this is already applied
+# but will let the user decide if we should go through this process
+
+fix_gwas_ext=""
+read -n 1 -p "Add extra columns in BIOMART.BIO_ASSAY_ANALYSIS_EXT? (Y/N):" fix_gwas_ext
+if [ "$fix_gwas_ext" = "Y" ]; then
+    psql -U postgres -d transmart -h localhost -p $DBPORT -f $CUSTOM_DIR/fix_gwas_metadata_bio_assay_analysis_ext.sql
+    echo "DONE! Added columns"
+else
+    echo "Ok. Will not add column."
+fi
 
 # TO-DO: add the monitoring schema
 
