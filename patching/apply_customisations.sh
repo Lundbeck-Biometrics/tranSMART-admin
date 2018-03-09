@@ -132,9 +132,9 @@ echo "### Apply fix for bug in GWAS Search Controller not being able to show the
 echo "### (Pull request created to main repo with branch gwas_performance_postgreSQL_fix)"
 echo "###"
 
-update_files "$REFERENCES_DIR/GWASSearchController.groovy" \
-    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/controllers/com/recomdata/grails/plugin/gwas/GWASSearchController.groovy" \
-    "$CUSTOM_DIR/GWASSearchController.groovy"
+update_files "$REFERENCES_DIR/GwasSearchController.groovy" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/controllers/com/recomdata/grails/plugin/gwas/GwasSearchController.groovy" \
+    "$CUSTOM_DIR/GwasSearchController.groovy"
 
 echo "###"
 echo "### Apply fix for mad Oracle pagination in GWAS Region Search Service"
