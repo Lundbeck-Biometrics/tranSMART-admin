@@ -104,14 +104,6 @@ update_files() {
 }
 
 echo "###"
-echo "### Apply customisation on GWAS analysis metadata available in interface"
-echo "###"
-
-update_files "$REFERENCES_DIR/_analysisdetail.gsp" \
-    "$TMCORE_DIR/transmartApp/grails-app/views/trial/_analysisdetail.gsp" \
-    "$CUSTOM_DIR/_analysisdetail.gsp"
-
-echo "###"
 echo "### Apply customisation on GWAS region search available in interface"
 echo "###"
 
@@ -216,6 +208,49 @@ echo "###"
 update_files "$REFERENCES_DIR/_commonheader.gsp" \
     "$TMCORE_DIR/transmartApp/grails-app/views/layouts/_commonheader.gsp" \
     "$CUSTOM_DIR/_commonheader.gsp"
+
+echo "###"
+echo "### Apply customization for GWAS metadata"
+echo "### (branch gwas_metadata_customization)"
+echo "###"
+
+update_files "$REFERENCES_DIR/BioAssayAnalysisExt.groovy" \
+    "$TMCORE_DIR/biomart-domain/grails-app/domain/org/transmart/biomart/BioAssayAnalysisExt.groovy" \
+    "$CUSTOM_DIR/BioAssayAnalysisExt.groovy"
+
+update_files "$REFERENCES_DIR/BioAssayAnalysisDAO.groovy" \
+    "$TMCORE_DIR/transmart-batch/src/main/groovy/org/transmartproject/batch/biodata/BioAssayAnalysisDAO.groovy" \
+    "$CUSTOM_DIR/BioAssayAnalysisDAO.groovy"
+
+update_files "$REFERENCES_DIR/BioExperimentDAO.groovy" \
+    "$TMCORE_DIR/transmart-batch/src/main/groovy/org/transmartproject/batch/biodata/BioExperimentDAO.groovy" \
+    "$CUSTOM_DIR/BioExperimentDAO.groovy"
+
+update_files "$REFERENCES_DIR/UpdateGwasTop500Tasklet.groovy" \
+    "$TMCORE_DIR/transmart-batch/src/main/groovy/org/transmartproject/batch/gwas/analysisdata/UpdateGwasTop500Tasklet.groovy" \
+    "$CUSTOM_DIR/UpdateGwasTop500Tasklet.groovy"
+
+update_files "$REFERENCES_DIR/GwasMetadataEntry.groovy" \
+    "$TMCORE_DIR/transmart-batch/src/main/groovy/org/transmartproject/batch/gwas/metadata/GwasMetadataEntry.groovy" \
+    "$CUSTOM_DIR/GwasMetadataEntry.groovy"
+
+echo "###"
+echo "### Apply customisation on GWAS analysis metadata available in interface"
+echo "### (branch gwas_metadata_customization)"
+echo "###"
+
+update_files "$REFERENCES_DIR/_analysisdetail.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/trial/_analysisdetail.gsp" \
+    "$CUSTOM_DIR/_analysisdetail.gsp"
+
+echo "###"
+echo "### Apply customisation on GWAS interface to remove link to metadata popup from GWAS study level"
+echo "### (branch gwas_metadata_customization)"
+echo "###"
+
+update_files "$REFERENCES_DIR/_experiments.gsp" \
+    "$TMCORE_DIR/transmart-gwas-plugin/grails-app/views/GWAS/_experiments.gsp" \
+    "$CUSTOM_DIR/_experiments.gsp"
 
 # TO-DO: add any GWAS fixes that havent been applied yet on the public repo
 
