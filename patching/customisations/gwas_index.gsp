@@ -79,6 +79,7 @@
 	<asset:stylesheet href="browseTab.css"/>
 	<asset:javascript src="gwas.js"/>
 	<asset:stylesheet href="gwas.css"/>
+	<asset:stylesheet href="lundbeck.css"/>
 
         <script type="text/javascript" charset="utf-8">
 	        var mouse_inside_options_div = false;

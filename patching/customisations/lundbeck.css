@@ -1,0 +1,79 @@
+/* Lundbeck custom styling */
+
+table.menuDetail th.menuBar {
+    background-color: rgba(239, 156, 0, 1);
+}
+
+table.menuDetail th.menuLink a:link, th.menuLink a:visited {
+    color: rgb(0, 0, 0) !important;
+    text-decoration: underline;
+}
+
+table.menuDetail th.menuVisited {
+    color: rgba(255, 255, 255, 1);
+}
+
+.ui-widget-header {
+    border: 1px solid rgba(239, 156, 0, 1);
+    background: rgba(239, 156, 0, 1);
+}
+
+.boxcontent {
+    border-left: 1px solid rgba(239, 156, 0, 1);
+    border-right: 1px solid rgba(239, 156, 0, 1);
+    border-bottom: 1px solid rgba(239, 156, 0, 1);
+}
+
+/* Browse Tab */
+
+#sidebar {
+    border-right: 5px solid rgb(228, 226, 215) !important;
+}
+
+.welcome {
+    background: rgb(250,225,178) !important;
+    border: 1px solid rgba(239, 156, 0, 1);
+}
+
+
+/* GWAS Tab */
+
+.ui-multiselect ul.selected {
+    background: rgb(250,225,178);
+}
+
+.ui-multiselect ul.available {
+    background: rgb(250,225,178);
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default {
+    color: rgba(239, 156, 0, 1);
+}
+
+.analysis-tabs ul .ui-state-active a {
+    color: rgba(239, 156, 0, 1);
+}
+
+.filtertypebox.analysis {
+    background-color: rgb(250,225,178);
+    border: 1px solid rgba(239, 156, 0, 1);
+}
+
+/* Analysis Tab - Navigate Terms panel */
+
+#navigateTermsPanel .x-panel-header {
+    background: rgba(239, 156, 0, 1);
+}
+
+#navigateTermsPanel .x-panel-body {
+    border-left: 1px solid rgba(239, 156, 0, 1);
+    border-right: 1px solid rgba(239, 156, 0, 1);
+    border-bottom: 1px solid rgba(239, 156, 0, 1);
+}
+
+/* Analysis Tab - Vertical bar */
+
+.x-layout-split {
+    background-color: rgb(228, 226, 215);
+}
+

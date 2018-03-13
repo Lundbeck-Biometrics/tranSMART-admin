@@ -65,6 +65,12 @@ echo "###"
 
 copy_files "$CUSTOM_DIR/vars" "$TMCORE_DIR/transmart-data/vars"
 
+echo "###"
+echo "### Copy Lundbeck stylesheet"
+echo "###"
+
+copy_files "$CUSTOM_DIR/lundbeck.css" "$TMCORE_DIR/transmartApp/grails-app/assets/stylesheets/lundbeck.css"
+
 echo "################################################################################"
 echo "### UPDATING EXISTING TRANSMART FILES"
 echo "################################################################################"
@@ -253,6 +259,28 @@ update_files "$REFERENCES_DIR/_experiments.gsp" \
     "$CUSTOM_DIR/_experiments.gsp"
 
 # TO-DO: add any GWAS fixes that havent been applied yet on the public repo
+
+# TO-DO: apply changes for including the Lundbeck stylesheet
+
+echo "###"
+echo "### Include Lundbeck styling"
+echo "###"
+
+update_files "$REFERENCES_DIR/browseTab.css" \
+    "$TMCORE_DIR/transmartApp/grails-app/assets/stylesheets/browseTab.css" \
+    "$CUSTOM_DIR/browseTab.css"
+
+update_files "$REFERENCES_DIR/analysetab.css" \
+    "$TMCORE_DIR/transmartApp/grails-app/assets/stylesheets/analysetab.css" \
+    "$CUSTOM_DIR/analysetab.css"
+
+update_files "$REFERENCES_DIR/admintab.css" \
+    "$TMCORE_DIR/transmartApp/grails-app/assets/stylesheets/admintab.css" \
+    "$CUSTOM_DIR/admintab.css"
+
+update_files "$REFERENCES_DIR/genesigmain.gsp" \
+    "$TMCORE_DIR/transmartApp/grails-app/views/layouts/genesigmain.gsp" \
+    "$CUSTOM_DIR/genesigmain.gsp"
 
 echo "################################################################################"
 echo "### APPLY CHANGES TO DATABASE"
