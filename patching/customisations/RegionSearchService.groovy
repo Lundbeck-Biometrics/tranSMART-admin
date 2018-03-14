@@ -603,7 +603,7 @@ class RegionSearchService {
             rs = stmt.executeQuery()
             while (rs.next()) {
                 if ((type.equals("gwas"))) {
-                    results.push([rs.getString("rsid"), rs.getString("pvalue_char"), rs.getDouble("logpvalue"), rs.getString("extdata"), analysisNameMap.get(rs.getLong("analysis_id")), rs.getString("rsgene"), rs.getString("chrom"), rs.getLong("pos"), rs.getString("intronexon"), rs.getString("recombinationrate"), rs.getString("regulome"), rs.getString("beta"), rs.getString("standard_error"), rs.getString("effect_allele"), rs.getString("other_allele"), rs.getString("strand")]);
+                    results.push([rs.getString("rsid"), rs.getString("pvalue_char"), rs.getDouble("logpvalue"), rs.getString("extdata"), analysisNameMap.get(rs.getLong("analysis_id")), rs.getString("rsgene"), rs.getString("chrom"), rs.getLong("pos"), rs.getString("intronexon"), rs.getString("recombinationrate"), rs.getString("regulome"), rs.getDouble("beta"), rs.getDouble("standard_error"), rs.getString("effect_allele"), rs.getString("other_allele"), rs.getString("strand")]);
                 } else {
                     results.push([rs.getString("rsid"), rs.getString("pvalue_char"), rs.getDouble("logpvalue"), rs.getString("extdata"), analysisNameMap.get(rs.getLong("analysis_id")), rs.getString("rsgene"), rs.getString("chrom"), rs.getLong("pos"), rs.getString("intronexon"), rs.getString("recombinationrate"), rs.getString("regulome"), rs.getString("gene"), rs.getString("strand")]);
                 }
@@ -683,7 +683,7 @@ class RegionSearchService {
             }
             else {
                 while(rs.next()){
-                    results.push([rs.getString("rsid"), rs.getDouble("pvalue"), rs.getDouble("logpvalue"), rs.getString("extdata"), rs.getString("analysis"), rs.getString("rsgene"), rs.getString("chrom"), rs.getLong("pos"), rs.getString("intronexon"), rs.getString("recombinationrate"), rs.getString("regulome"), rs.getString("beta"), rs.getString("standard_error"), rs.getString("effect_allele"), rs.getString("other_allele"), rs.getString("strand")]);
+                    results.push([rs.getString("rsid"), rs.getDouble("pvalue"), rs.getDouble("logpvalue"), rs.getString("extdata"), rs.getString("analysis"), rs.getString("rsgene"), rs.getString("chrom"), rs.getLong("pos"), rs.getString("intronexon"), rs.getString("recombinationrate"), rs.getString("regulome"), rs.getDouble("beta"), rs.getDouble("standard_error"), rs.getString("effect_allele"), rs.getString("other_allele"), rs.getString("strand")]);
                 }
             }
         }
