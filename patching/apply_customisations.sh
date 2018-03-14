@@ -283,6 +283,13 @@ update_files "$REFERENCES_DIR/genesigmain.gsp" \
     "$CUSTOM_DIR/genesigmain.gsp"
 
 echo "################################################################################"
+echo "### COPY IMAGES"
+echo "################################################################################"
+
+cp "$CUSTOM_DIR/lutransmartlogo.png" "$TMCORE_DIR/transmartApp/grails-app/assets/images/lutransmartlogo.png"
+cp "$CUSTOM_DIR/provider_logo.png" "$TMCORE_DIR/transmartApp/grails-app/assets/images/provider_logo.png"
+
+echo "################################################################################"
 echo "### APPLY CHANGES TO DATABASE"
 echo "################################################################################"
 
