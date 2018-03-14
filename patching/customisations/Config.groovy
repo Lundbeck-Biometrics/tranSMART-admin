@@ -132,6 +132,9 @@ environments { development {
 // com.recomdata.providerURL
 /* }}} */
 
+com.recomdata.projectName = 'tranSMART'
+com.recomdata.providerName = 'Bioinformatics'
+
 /* {{{ Login */
 // Session timeout and heartbeat frequency (ping interval)
 com.recomdata.sessionTimeout = 1800

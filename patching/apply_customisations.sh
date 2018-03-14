@@ -286,7 +286,7 @@ echo "##########################################################################
 echo "### COPY IMAGES"
 echo "################################################################################"
 
-cp "$CUSTOM_DIR/lutransmartlogo.png" "$TMCORE_DIR/transmartApp/grails-app/assets/images/lutransmartlogo.png"
+#cp "$CUSTOM_DIR/lutransmartlogo.png" "$TMCORE_DIR/transmartApp/grails-app/assets/images/lutransmartlogo.png"
 cp "$CUSTOM_DIR/provider_logo.png" "$TMCORE_DIR/transmartApp/grails-app/assets/images/provider_logo.png"
 
 echo "################################################################################"
