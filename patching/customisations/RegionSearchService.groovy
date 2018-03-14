@@ -320,6 +320,7 @@ class RegionSearchService {
 
     def getAnalysisData(analysisIds, ranges, Long limit, Long offset, Double cutoff, String sortField, String order, String search, String type, geneNames, transcriptGeneNames, doCount) {
 
+        println("THIS IS THE SORTING FIELD: "+sortField)
         def con, stmt, rs = null;
         con = dataSource.getConnection()
 
@@ -540,6 +541,9 @@ class RegionSearchService {
             if (hg19only) {
                 regionList.append("1=1")
             }
+            else if (grailsApplication.config.com.recomdata.gwas.usehg38table) {
+                regionList.append("info.hg_version = '38'")
+            }
             else {
                 regionList.append("info.hg_version = '19'")
             }
@@ -549,12 +553,12 @@ class RegionSearchService {
 
         // this is really a hack
         def sortOrder = sortField?.trim();
-        //println(sortField)
+
         if(hg19only){
             sortOrder = sortOrder.replaceAll("info.gene_name", "info.rsgene");
-
         }
-        //println("after:"+sortOrder)
+
+        println("What is the analysis query now?:"+analysisQuery)
         analysisQuery = analysisQuery.replace("_orderclause_", sortOrder + " " + order)
         countQuery = countQuery.replace("_regionlist_", regionList.toString())
 
@@ -576,7 +580,7 @@ class RegionSearchService {
                 finalQuery = analysisQuery + queryCriteria.toString() + "\n "
 
                 if (limit > 0) {
-                    finalQuery += " order by data.rs_id asc offset " + offset + " limit " + limit
+                    finalQuery += " order by  " + sortOrder + " " + order + " offset " + offset + " limit " + limit
                 }
             } else {
                 finalQuery = analysisQuery + queryCriteria.toString() + "\n) a"
@@ -585,6 +589,8 @@ class RegionSearchService {
                     finalQuery += " where a.row_nbr between ${offset + 1} and ${offset + limit}"
                 }
             }
+
+            println("THIS IS THE FINAL QUERY TEXT: "+finalQuery)
 
             stmt = con.prepareStatement(finalQuery)
 

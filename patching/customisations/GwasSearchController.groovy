@@ -348,7 +348,7 @@ class GwasSearchController {
         columnNames.add(["sTitle":"Probe ID", "sortField":"data.rs_id"])
         columnNames.add(["sTitle":"p-value", "sortField":"data.p_value"])
         columnNames.add(["sTitle":"-log 10 p-value", "sortField":"data.log_p_value"])
-        columnNames.add(["sTitle":"RS Gene", "sortField":"gmap.gene_name"])
+        columnNames.add(["sTitle":"RS Gene", "sortField":"info.gene_name"])
         columnNames.add(["sTitle":"Chromosome", "sortField":"info.chrom"])
         columnNames.add(["sTitle":"Position", "sortField":"info.pos"])
 	columnNames.add(["sTitle":"Strand", "sortField":"info.strand"])
