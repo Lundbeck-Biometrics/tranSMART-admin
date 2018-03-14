@@ -200,6 +200,14 @@ update_files "$REFERENCES_DIR/_welcome.gsp" \
     "$CUSTOM_DIR/_welcome.gsp"
 
 echo "###"
+echo "### Apply customisation on login screen"
+echo "###"
+
+update_files "$REFERENCES_DIR/authPage.gsp" \
+    "$TMCORE_DIR/transmart-oauth/grails-app/views/login/authPage.gsp" \
+    "$CUSTOM_DIR/authPage.gsp"
+
+echo "###"
 echo "### Apply customisation of transmart-batch.sh script"
 echo "###"
 
