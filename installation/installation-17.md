@@ -372,6 +372,12 @@ kill [process ID]
 TODO: Describe the .sh script for starting tranSMART with JAVA
 
 
+#### Disabling tomcat autostart
+
+If tomcat7 is installed on the server it was most probably configured to automatically start at server restart. But if you don't use tomcat for deployment, you will have to disable:
+
+`sudo update-rc.d tomcat7 disable`
+
 ## Data Loading
 
 To load with transmart-batch:
