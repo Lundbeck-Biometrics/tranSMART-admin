@@ -333,6 +333,15 @@ else
     echo "Ok. Will not add column."
 fi
 
+custom_study_tags=""
+read -n 1 -p "Customize tags in AMAPP.AM_TAG_ITEM? (Y/N):" custom_study_tags
+if [ "$custom_study_tags" = "Y" ]; then
+    psql -U postgres -d transmart -h localhost -p $DBPORT -f $CUSTOM_DIR/customize_study_tags.sql
+    echo "DONE! Added custom tags in amapp domain."
+else
+    echo "Ok. Will not change existing tags."
+fi
+
 # TO-DO: add the monitoring schema
 
 echo ""
