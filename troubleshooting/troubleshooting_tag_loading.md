@@ -1,8 +1,8 @@
-### Identifying how to programmatically load the program info
+## Identifying how to programmatically load the program info
 
 The approach is to add a program manually through the interface and see what was written in the database and where.
 
-#### Difference for adding a program called "Public Studies":
+### Difference for adding a program called "Public Studies":
 
 ```
 'amapp','am_tag_association',0
