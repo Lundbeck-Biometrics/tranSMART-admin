@@ -131,3 +131,37 @@ INSERT INTO amapp.am_tag_template_association
 (tag_template_id,object_uid)
 SELECT 1995564, trim(both '\' from folder_full_name) from fm_folder where folder_name='Public Studies';
 ```
+
+
+## Identifying how to programmatically load the study info
+
+The approach is to add a study manually through the interface and see what was written in the database and where.
+
+### Difference for adding a study in "Public Studies" called "GSE8581":
+
+```
+'amapp','am_data_uid',0
+'amapp','am_data_uid',7
+
+'amapp','am_tag_association',5
+'amapp','am_tag_association',17
+
+'amapp','am_tag_template_association',1
+'amapp','am_tag_template_association',2
+
+'amapp','am_tag_value',0
+'amapp','am_tag_value',7
+
+'fmapp','fm_data_uid',1
+'fmapp','fm_data_uid',2
+
+'fmapp','fm_folder',1
+'fmapp','fm_folder',2
+```
+
+Also, not related to actual data, but more that an event of creating a study has occurred is logged in: 
+
+```
+'searchapp','search_app_access_log',851
+'searchapp','search_app_access_log',853
+```
