@@ -249,3 +249,67 @@ VALUES
 
 
 ```
+
+### Deleting the existing study before we test the scripting
+
+Note: this assumes that there is only one study created, because it will delete all tags (does not check on study)
+
+```
+delete from amapp.am_tag_template_association where object_uid = 'FOL:1992448'; 
+
+delete from amapp.am_tag_association where subject_uid = 'FOL:1992448';
+
+delete from amapp.AM_DATA_UID;
+
+delete from amapp.AM_TAG_VALUE;
+
+delete from fmapp.fm_folder where folder_id = 1992448;
+
+delete from fmapp.fm_data_uid where fm_data_id = 1992448;
+```
+
+### Adding a new study
+
+Works without the need for specifying an ID
+
+```
+SET search_path TO fmapp;
+
+-- inserting a new folder and thus generating a new ID
+-- this actually creates a new entry in the fmapp.fm_data_uid table as well, so no manual insert is needed for that table
+INSERT INTO fm_folder 
+(folder_name,folder_level,folder_type,folder_tag,active_ind,parent_id,description)
+SELECT 
+'GSE8581',1,'STUDY',null,true,folder_id,'To identify gene expression markers for COPD, we performed genome-wide expression profiling of lung tissue from 56 subjects using the Affymetrix U133 Plus 2.0 array.'
+from fmapp.fm_folder where folder_name='Public Studies';
+
+-- get the id for the new folder
+select folder_id from fm_folder where folder_name='GSE8581';
+
+-- insert the lookup tags
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'DIS:D029424','BIO_DISEASE',1995526 from fm_folder where folder_name='GSE8581';
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'SPECIES:HOMO_SAPIENS','BIO_CONCEPT_CODE',1995537 from fm_folder where folder_name='GSE8581';
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'STUDY_OBJECTIVE:DISCOVER_BIOMARKERS','BIO_CONCEPT_CODE',1995531 from fm_folder where folder_name='GSE8581';
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'STUDY_PHASE:PRECLINICAL','BIO_CONCEPT_CODE',1995530 from fm_folder where folder_name='GSE8581';
+
+-- insert the value tags
+
+-- TO-DO: insert the tags
+
+-- apply template
+INSERT INTO amapp.am_tag_template_association
+(tag_template_id,object_uid)
+SELECT 1995523, 'FOL:'||folder_id from fm_folder where folder_name='GSE8581';
+
+```
