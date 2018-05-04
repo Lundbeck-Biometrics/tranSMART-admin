@@ -136,6 +136,7 @@ SELECT 1995564, trim(both '\' from folder_full_name) from fm_folder where folder
 ## Identifying how to programmatically load the study info
 
 The approach is to add a study manually through the interface and see what was written in the database and where.
+Note: this was done before the customization of the study level metadata, meaning that this exercise was done on the out of the box tags.
 
 ### Difference for adding a study in "Public Studies" called "GSE8581":
 
@@ -164,4 +165,87 @@ Also, not related to actual data, but more that an event of creating a study has
 ```
 'searchapp','search_app_access_log',851
 'searchapp','search_app_access_log',853
+```
+
+### What was actually written
+
+```
+-- AMAPP.AM_DATA_UID
+-- am_data_id is primary key, bigint
+
+INSERT INTO AMAPP.AM_DATA_UID 
+(am_data_id,unique_id,am_data_type)
+VALUES
+(1995736,'TAG:1995736','AM_TAG_VALUE')
+(1995737,'TAG:1995737','AM_TAG_VALUE'),
+(1995738,'TAG:1995738','AM_TAG_VALUE'),
+(1995739,'TAG:1995739','AM_TAG_VALUE'),
+(1995740,'TAG:1995740','AM_TAG_VALUE'),
+(1995741,'TAG:1995741','AM_TAG_VALUE'),
+(1995742,'TAG:1995742','AM_TAG_VALUE');
+
+-- AMAPP.AM_TAG_ASSOCIATION
+-- subject_uid and object_uid are primary keys
+-- tag_item_id refers to definition of what tags are available (am_tag_item table)
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+VALUES
+('FOL:1992448','DIS:D029424','BIO_DISEASE','1995526'),
+('FOL:1992448','SPECIES:HOMO_SAPIENS','BIO_CONCEPT_CODE','1995537'),
+('FOL:1992448','STUDY_OBJECTIVE:DISCOVER_BIOMARKERS','BIO_CONCEPT_CODE','1995531'),
+('FOL:1992448','STUDY_PHASE:PRECLINICAL','BIO_CONCEPT_CODE','1995530'),
+('FOL:1992448','STUDY_PUBLICATION_STUDY_PUBLICATION_STATUS:PUBLISHED','BIO_CONCEPT_CODE','1995546'),
+('FOL:1992448','TAG:1995736','AM_TAG_VALUE','1995535'),
+('FOL:1992448','TAG:1995737','AM_TAG_VALUE','1995536'),
+('FOL:1992448','TAG:1995738','AM_TAG_VALUE','1995541'),
+('FOL:1992448','TAG:1995739','AM_TAG_VALUE','1995542'),
+('FOL:1992448','TAG:1995740','AM_TAG_VALUE','1995543'),
+('FOL:1992448','TAG:1995741','AM_TAG_VALUE','1995544'),
+('FOL:1992448','TAG:1995742','AM_TAG_VALUE','1995545');
+
+-- AMAPP.am_tag_template_association
+-- tag_template_id and object_uid are primary keys
+-- tag_template_id refers to what types of templates are available (tag_template_id in am_tag_template table)
+
+INSERT INTO amapp.am_tag_template_association
+(tag_template_id,object_uid,id)
+VALUES
+(1995523,'FOL:1992448',1995743);
+
+-- AMAPP.AM_TAG_VALUE
+-- tag_value_id is primary key
+-- There are two triggers:
+--   one to generate the next ID for the tag_value_id
+--   one to insert into amapp.am_data_uid (meaning that we dont need to do the insert in am_data_uid manually)
+
+INSERT INTO amapp.am_tag_value
+(tag_value_id,value)
+VALUES
+(1995736,'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE8581'),
+(1995737,'56'),
+(1995738,'2009'),
+(1995739,'18849563'),
+(1995740,'18849563'),
+(1995741,'Bhattacharya S, Srisuma S, Demeo DL, Shapiro SD et al'),
+(1995742,'Molecular biomarkers for quantitative and discrete COPD phenotypes');
+
+- FMAPP.FM_DATA_UID
+-- fm_data_id is primary key; val '1992448'
+
+INSERT INTO fmapp.fm_data_uid
+(fm_data_id,unique_id,fm_data_type)
+VALUES
+(1992448,'FOL:1992448','FM_FOLDER');
+
+-- FMAPP.FM_FOLDER
+-- folder_id is primary key; val '1992448'
+-- trigger on folder_id to be created, and another trigger to load into fm_data_uid
+
+INSERT INTO fmapp.fm_folder 
+(folder_id,folder_name,folder_full_name,folder_level,folder_type,folder_tag,active_ind,parent_id,description)
+VALUES
+(1992448,'GSE8581','\FOL:1992447\FOL:1992448\',1,'STUDY',null,true,1992447,'To identify gene expression markers for COPD, we performed genome-wide expression profiling of lung tissue from 56 subjects using the Affymetrix U133 Plus 2.0 array.');
+
+
 ```
