@@ -305,7 +305,56 @@ SELECT 'FOL:'||folder_id,'STUDY_PHASE:PRECLINICAL','BIO_CONCEPT_CODE',1995530 fr
 
 -- insert the value tags
 
--- TO-DO: insert the tags
+-- number of followed subjects (tag code: 1995536)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('56');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995536 from fm_folder where folder_name='GSE8581';
+
+-- study link (tag code: 1995535)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE8581');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995535 from fm_folder where folder_name='GSE8581';
+
+-- study owner (tag code: 1995703)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('NCBI');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995703 from fm_folder where folder_name='GSE8581';
+
+-- study identifier (tag code: 1995529)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('GSE8581');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995529 from fm_folder where folder_name='GSE8581';
+
+-- study name (tag code: 1995524)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('GSE8581');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995524 from fm_folder where folder_name='GSE8581';
+
 
 -- apply template
 INSERT INTO amapp.am_tag_template_association
