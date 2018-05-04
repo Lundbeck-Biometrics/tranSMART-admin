@@ -355,6 +355,94 @@ INSERT INTO amapp.am_tag_association
 (subject_uid,object_uid,object_type,tag_item_id)
 SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995524 from fm_folder where folder_name='GSE8581';
 
+-- insert the optional value tags
+
+-- Lundbeck compound (tag code: 1995700)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Lu compound');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995700 from fm_folder where folder_name='GSE8581';
+
+-- Lundbeck compound target (tag code: 1995701)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Lu compound target');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995701 from fm_folder where folder_name='GSE8581';
+
+-- Lundbeck generic name (tag code: 1995702)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Lu generic name');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995702 from fm_folder where folder_name='GSE8581';
+
+-- Strain (tag code: 1995705)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Strain');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995705 from fm_folder where folder_name='GSE8581';
+
+-- Types of samples (tag code: 1995704)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Types of samples');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995704 from fm_folder where folder_name='GSE8581';
+
+-- Study date (tag code: 1995541)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('Study date');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995541 from fm_folder where folder_name='GSE8581';
+
+-- Study PubMed ID (tag code: 1995542)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('18849563');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995542 from fm_folder where folder_name='GSE8581';
+
+-- Study Publication DOI (tag code: 1995543)
+INSERT INTO amapp.am_tag_value
+(value)
+values
+('10.1165/rcmb.2008-0114OC');
+
+INSERT INTO amapp.am_tag_association
+(subject_uid,object_uid,object_type,tag_item_id)
+SELECT 'FOL:'||folder_id,'TAG:'||CURRVAL('amapp.SEQ_AMAPP_DATA_ID'),'AM_TAG_VALUE',1995543 from fm_folder where folder_name='GSE8581';
+
+-- TODO: insert COUNTRY
+-- following does not seem to work:
+-- select * from biomart.bio_concept_code where code_type_name='COUNTRY' and code_name='UNITED STATES';
+-- INSERT INTO amapp.am_tag_association
+-- (subject_uid,object_uid,object_type,tag_item_id)
+-- SELECT 'FOL:'||folder_id,'COUNTRY:UNITED_STATED','BIO_CONCEPT_CODE',1995540 from fm_folder where folder_name='GSE8581';
 
 -- apply template
 INSERT INTO amapp.am_tag_template_association
