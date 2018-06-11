@@ -290,6 +290,18 @@ update_files "$REFERENCES_DIR/genesigmain.gsp" \
     "$TMCORE_DIR/transmartApp/grails-app/views/layouts/genesigmain.gsp" \
     "$CUSTOM_DIR/genesigmain.gsp"
 
+echo "###"
+echo "### Apply patching for files changed by switching from branch master to dev JUN2018"
+echo "###"
+
+update_files "$REFERENCES_DIR/QueryToolController.groovy" \
+    "$TMCORE_DIR/transmartApp/grails-app/controllers/org/transmart/ontology/QueryToolController.groovy" \
+    "$CUSTOM_DIR/QueryToolController.groovy"
+
+update_files "$REFERENCES_DIR/I2b2HelperService.groovy" \
+    "$TMCORE_DIR/transmartApp/grails-app/services/org/transmartproject/app/I2b2HelperService.groovy" \
+    "$CUSTOM_DIR/I2b2HelperService.groovy"
+
 echo "################################################################################"
 echo "### COPY IMAGES"
 echo "################################################################################"
