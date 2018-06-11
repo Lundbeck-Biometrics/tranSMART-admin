@@ -6,7 +6,7 @@
 # Getting status on all TM services
 solrid=$(ps -eo pid,command | grep start.jar | grep -v grep | awk '{print $1}')
 rserveid=$(ps -eo pid,command | grep Rserve | grep -v grep | awk '{print $1}')
-transmartid=$(ps -eo pid,command | grep transmart-server-17.1-SNAPSHOT.war | grep -v grep | awk '{print $1}')
+transmartid=$(ps -eo pid,command | grep transmart-server-17.1-HYVE-5-SNAPSHOT.war | grep -v grep | awk '{print $1}')
 
 # If no arguments are passed then you get the status on all tranSMART services
 if (($# == 0)); then
@@ -147,7 +147,7 @@ if (($# == 2)); then
        echo ""
        echo "[INFO] tranSMART web application is already running. Will not restart service. Bye!"
       else
-       java -jar transmart-server/build/libs/transmart-server-17.1-SNAPSHOT.war &
+       java -jar transmart-server/build/libs/transmart-server-17.1-HYVE-5-SNAPSHOT.war &
       fi
       ;;
       "stop")
